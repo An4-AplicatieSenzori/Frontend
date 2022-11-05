@@ -1,3 +1,4 @@
+//Importuri: Erori Cards? Cred! Nu stiu de ce atatea!
 import React from 'react';
 import APIResponseErrorMessage from "../commons/errorhandling/api-response-error-message";
 import {
@@ -11,14 +12,15 @@ import {
     Row
 } from 'reactstrap';
 import PersonForm from "./components/person-form";
-
 import * as API_USERS from "./api/person-api"
 import PersonTable from "./components/person-table";
 
 
-
+//Clasa container: Containerul contine tabelul?
+//Functii din React Component: toggleForm / reload / render...;
 class PersonContainer extends React.Component {
 
+    //Constructor:
     constructor(props) {
         super(props);
         this.toggleForm = this.toggleForm.bind(this);
@@ -33,13 +35,14 @@ class PersonContainer extends React.Component {
         };
     }
 
+    //?
     componentDidMount() {
         this.fetchPersons();
     }
 
+    //Ia datele;
     fetchPersons() {
         return API_USERS.getPersons((result, status, err) => {
-
             if (result !== null && status === 200) {
                 this.setState({
                     tableData: result,
@@ -54,11 +57,12 @@ class PersonContainer extends React.Component {
         });
     }
 
+    //?
     toggleForm() {
         this.setState({selected: !this.state.selected});
     }
 
-
+    //? Toate una dupa alta, parca pipeline de grafica;
     reload() {
         this.setState({
             isLoaded: false
@@ -67,12 +71,17 @@ class PersonContainer extends React.Component {
         this.fetchPersons();
     }
 
+    //Return la div:
     render() {
         return (
             <div>
+                <!-- Aici avem toata pagina persons! -->
+                <!-- Nu stiu de ce cards! Titlul: -->
                 <CardHeader>
                     <strong> Person Management </strong>
                 </CardHeader>
+
+                <!-- Aici este butonul de add: -->
                 <Card>
                     <br/>
                     <Row>
@@ -81,6 +90,8 @@ class PersonContainer extends React.Component {
                         </Col>
                     </Row>
                     <br/>
+
+                    <!-- Aici este tot tabelul: -->
                     <Row>
                         <Col sm={{size: '8', offset: 1}}>
                             {this.state.isLoaded && <PersonTable tableData = {this.state.tableData}/>}
@@ -92,6 +103,9 @@ class PersonContainer extends React.Component {
                     </Row>
                 </Card>
 
+                <!-- Aici este modala, ascunsa, inafara de atunci cand ne trebuie pentru adaugat persoane;
+                 Merge ca un pop up de completat in fata paginii, ca la practica;-->
+                <!-- Toggle la modala, sau la alte componente -->
                 <Modal isOpen={this.state.selected} toggle={this.toggleForm}
                        className={this.props.className} size="lg">
                     <ModalHeader toggle={this.toggleForm}> Add Person: </ModalHeader>
@@ -99,12 +113,21 @@ class PersonContainer extends React.Component {
                         <PersonForm reloadHandler={this.reload}/>
                     </ModalBody>
                 </Modal>
-
             </div>
         )
-
     }
 }
 
-
+//Export final:
 export default PersonContainer;
+
+
+
+
+
+
+
+
+
+
+

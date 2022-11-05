@@ -1,13 +1,19 @@
+//Importuri:
 import React, {Component} from "react";
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import Field from "./fields/Field";
 import {Col, Row} from "react-bootstrap";
 
-class Table extends Component {
+//Avem CLASE sau FUNCTII!
+//Clasa cu constructor: Tot timpul props;
+class Table extends Component
+{
+    //Constructor:
     constructor(props) {
         super(props);
 
+        //Max size 10 pagini?
         this.state = {
             data: props.data,
             columns: props.columns,
@@ -18,10 +24,14 @@ class Table extends Component {
         };
     }
 
-    search() {
-
+    //Nimic la search; Dar merge;
+    search()
+    {
     }
 
+    //Search foloseste filter?
+    //Primim data: For each data, daca este gol, acceptam;
+    //Accessor este data dinauntru valorii?
     filter(data) {
         let accepted = true;
 
@@ -30,14 +40,19 @@ class Table extends Component {
                 accepted = true;
             }
 
-            if (!String(data[val.accessor]).includes(String(val.value)) && !String(val.value).includes(String(data[val.accessor]))) {
+            //Daca include valoarea data, defapt daca se includ reciproc:
+            if (!String(data[val.accessor]).includes(String(val.value))
+                && !String(val.value).includes(String(data[val.accessor]))) {
+                //Asa nu acceptam? Asa nu il filtreaza, ci il da direct;
                 accepted = false;
             }
         });
 
+        //Returnam ce filtram: Defapt not sus, deci poate return doar ce trebuie;
         return accepted;
     }
 
+    //Cand schimbi ceva, adaugi ceva, forteaza update;
     handleChange(value, index, header) {
         if (this.state.filters === undefined)
             this.setState({filters: []});
@@ -46,11 +61,10 @@ class Table extends Component {
             value: value.target.value,
             accessor: header
         };
-
         this.forceUpdate();
     }
 
-
+    //Aliniere centru scris;
     getTRPropsType(state, rowInfo) {
         if (rowInfo) {
             return {
@@ -63,19 +77,21 @@ class Table extends Component {
             return {};
     }
 
-
-
+    //Daca dai extend la componenta, poti folosi RENDER!!!
     render() {
+        //Folosesti data filtrata: Ca un if:
         let data = this.state.data ? this.state.data.filter(data => this.filter(data)) : [];
 
+        //On change, se schimba ce trebuie;
         return (
             <div>
                 <Row>
                     {
+                        //style = "background-color: red;"
                         this.state.search.map((header, index) => {
                             return (
                                 <Col key={index}>
-                                    <div >
+                                    <div>
                                         <Field id={header.accessor} label={header.accessor}
                                                onChange={(e) => this.handleChange(e, index, header.accessor)}/>
                                     </div>
@@ -84,6 +100,7 @@ class Table extends Component {
                         })
                     }
                 </Row>
+
                 <Row>
                     <Col>
                         <ReactTable
@@ -95,6 +112,7 @@ class Table extends Component {
                             showPagination={true}
                             style={{
                                 height: '300px'
+                                //backgroundcolor: red
                             }}
                         />
                     </Col>
@@ -104,4 +122,10 @@ class Table extends Component {
     }
 }
 
+//In toate JS exista exporturi;
+//Poti da export la clasa sau la functie!!!
 export default Table;
+
+
+
+

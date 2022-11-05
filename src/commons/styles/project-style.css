@@ -1,9 +1,14 @@
 /*http://colorpalettes.net/color-palette-3958/*/
+/* Pentru culori! */
 
+/* Toate sunt local: */
+
+/* Body principal */
 :local(.body) {
     margin-left: 50px;
 }
 
+/* De la meniu */
 :local(.dropdown) {
     display: inline-block;
     width: 200px;
@@ -11,7 +16,12 @@
     margin-right: 10px;
     float: right;
 }
+:local(.dropdown.hover) {
+    background-color: #2980b9;
+    cursor: pointer;
+}
 
+/* Font titlu; */
 :local(.pagetitle) {
     display: inline-block;
     width: 50%;
@@ -19,24 +29,24 @@
     text-align: center;
     margin-bottom: 30px;
     margin-top: 10px;
-    color: #80807E;
+    /* color: #80807E; */
+    color: red;
 }
 
+/* Container pentru marime: */
 :local(.generalcontainer) {
     width: 1400px;
     margin: auto;
 
 }
 
+/* Buton */
 :local(.divBtn) {
     text-align: center;
-
-
     margin: auto;
-
 }
 
-
+/* Home? */
 :local(.home) {
     width: 100vw;
     position: relative;
@@ -46,6 +56,7 @@
     margin-right: -50vw;
 }
 
+/* Chart? */
 :local(.chartdisplay) {
     margin-top: 10px;
     display: inline-block;
@@ -53,23 +64,28 @@
     float: left;
 }
 
+/* BackgroundImg: */
 :local(.background-image) {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     width: 100%;
-    height: 1920px;
-    background-image: url("../images/future-medicine.jpg");
+    /* height: 1920px; */
+    height: 3840px;
+    background-image: url("../images/energy.jpeg");
 }
 
+/* Back? */
 :local(.back) {
     background-color: #FAFAF6;
 }
 
+/* Titlu: */
 :local(.titleSubtitleContainer) {
     display: inline-flex;
 }
 
+/* Error: */
 :local(.errorTitle) {
     font-weight: 400;
     font-size: 18px;
@@ -77,6 +93,7 @@
     letter-spacing: 1px;
 }
 
+/* Error: */
 :local(.errorText) {
     font-weight: 400;
     font-size: 16px;
@@ -84,6 +101,7 @@
     letter-spacing: 1px;
 }
 
+/* ? */
 :local(.subtitle) {
     font-weight: 600;
     color: #537C8E;
@@ -93,6 +111,7 @@
     width: 30%;
 }
 
+/* Card? */
 :local(.cardLabelContainer) {
     display: table-cell;
     background-color: cornflowerblue;
@@ -100,6 +119,7 @@
     height: 2.5em;
 }
 
+/* Card? */
 :local(.cardLabel) {
     font-weight: 600;
     color: #FFFFFF;
@@ -108,6 +128,7 @@
     margin-top: 0.5em;
 }
 
+/* Card? */
 :local(.cardSubtitle) {
     font-weight: 600;
     color: #537C8E;
@@ -117,18 +138,19 @@
     width: 90%;
 }
 
+/* Chart? */
 :local(.charttitle) {
     font-weight: 600;
     font-size: 16px;
     color: #537C8E;
     letter-spacing: 1px;
     position: relative;
-
     text-align: left;
     margin-left: 50px;
     margin-bottom: 20px;
 }
 
+/* Paragraf? */
 :local(.paragraph){
     padding: 15px 30px;
     margin: 15px 0;
@@ -140,6 +162,7 @@
     width: 600px;
 }
 
+/* Titlu? */
 :local(.title) {
     padding: 15px 30px 0px;
     display: inline-block;
@@ -177,6 +200,7 @@
     ) 0 0 100% 0/0 0 3px 0 stretch;
 }
 
+/* Search? */
 :local(.search) {
     background: no-repeat scroll left / 20% auto rgba(0, 0, 0, 0);
     display: inline-block;
@@ -186,6 +210,7 @@
     text-indent: 24px;
 }
 
+/* Next? */
 :local(.next) {
     background:  no-repeat scroll left / 30% auto rgba(0, 0, 0, 0);
     display: inline-block;
@@ -194,33 +219,46 @@
     vertical-align: middle;
     text-indent: 24px;
 }
+
+/* Left up corner? */
 :local(.leftUpCorner) {
     position: relative;
     width: 800px;
     height: 300px;
 }
+
+/* ? */
 :local(.leftDownCorner) {
     position: relative;
     width: 800px;
     height: 300px;
     margin-top: 0px;
 }
+
+/* ? */
 :local(.chartTitle) {
     text-align: center;
     font-family: sans-serif;
 }
+
+/* ? */
 :local(.chartLabel) {
     font-family: sans-serif
 }
 
+/* ? */
 :local(.rightAllignelement) {
     float: right;
     margin-right: 5%;
 }
+
+/* ? */
 :local(.leftAllignelement) {
     float: left;
     margin-left: 5%;
 }
+
+/* ? */
 :local(.rowDisplay) {
     display:flex;
     flex-direction:row;
@@ -228,6 +266,7 @@
     margin-top: 2%;
 }
 
+/* ??? */
 :local(.referencePricesGraphDisplay) {
     position: relative;
     width: 800px;
@@ -235,19 +274,24 @@
     margin-top: 0px;
 }
 
+/* ? */
 :local(.middleAllign) {
     horiz-align: center;
 }
+
+/* nu cel general/ */
 :local(.container) {
     margin-left: 0;
     margin-bottom: 30px;
     margin-top: 1%;
 }
 
+/* ??? */
 :local(.parentOf2Tables) {
     display: flex;
 }
 
+/* ? */
 :local(.leftCorner ) {
     position: relative;
     margin: auto;
@@ -256,6 +300,7 @@
     height: auto;
 }
 
+/* ? */
 :local( .rightCorner ) {
     position: relative;
     float: right;
@@ -264,6 +309,7 @@
     height: auto;
 }
 
+/* ? */
 :local(.columnDisplayDayAhead) {
     display:flex;
     flex-direction:column;
@@ -272,6 +318,7 @@
     margin-top: 2%;
 }
 
+/* ? */
 :local(.monitoredDataTable) {
     width: 95%;
     height: 95%;
@@ -279,12 +326,14 @@
     margin-left: 2%;
 }
 
+/* ? */
 :local(.placeOrderButton) {
     width: 15%;
     height: 70px;
     margin-bottom: 2%;
 }
 
+/* ? */
 :local(.tablesInRow) {
     width:800px;
     height: 350px;
@@ -292,21 +341,28 @@
 
 }
 
+/* ? */
 :local(.rowStyle) {
     height: 800px;
 }
 
+/* ? */
 :local(.marginForColumn) {
     margin: 2%;
 }
 
+/* ? */
 :local(.cardMargin) {
     margin-top: 4%;
 }
+
+/* ? */
 :local(.rightPositionedTable) {
     margin-right: 40px;
     width: 800px;
 }
+
+/* ? */
 :local(.tableColors) {
     background: #DCDCDC;
     border-color: #A9A9A9

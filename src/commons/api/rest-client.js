@@ -1,3 +1,7 @@
+//Request + Response;
+//Fetch + Dupa: daca response este ok, callback json;
+//Altfel nimic, eroare
+//Catch pentru alte erori;
 function performRequest(request, callback){
     fetch(request)
         .then(
@@ -15,6 +19,7 @@ function performRequest(request, callback){
         });
 }
 
+//Idk;
 module.exports = {
     performRequest
 };

@@ -1,15 +1,15 @@
 // This optional code is used to register a service worker.
 // register() is not called by default.
-
 // This lets the app load faster on subsequent visits in production, and gives
 // it offline capabilities. However, it also means that developers (and person)
 // will only see deployed updates on subsequent visits to a page, after all the
 // existing tabs open on the page have been closed, since previously cached
 // resources are updated in the background.
-
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read http://bit.ly/CRA-PWA
 
+
+//Ceva cu caile:
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -20,6 +20,7 @@ const isLocalhost = Boolean(
     )
 );
 
+//?
 export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -31,6 +32,7 @@ export function register(config) {
       return;
     }
 
+    //?
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
       if (isLocalhost) {
@@ -53,6 +55,7 @@ export function register(config) {
   }
 }
 
+//?
 function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
@@ -92,6 +95,7 @@ function registerValidSW(swUrl, config) {
     });
 }
 
+//?
 function checkValidServiceWorker(swUrl, config) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
@@ -120,6 +124,7 @@ function checkValidServiceWorker(swUrl, config) {
     });
 }
 
+//?
 export function unregister() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(registration => {
@@ -127,3 +132,12 @@ export function unregister() {
     });
   }
 }
+
+
+
+
+
+
+
+
+

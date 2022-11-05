@@ -1,9 +1,13 @@
+//Imports:
 import React from 'react'
 import {Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row, UncontrolledAlert} from 'reactstrap';
 import styles from '../styles/project-style.css';
 
-class APIResponseErrorMessage extends React.Component {
-
+//Componenta React ResponseError:
+class APIResponseErrorMessage extends React.Component
+{
+    //Constructor props:
+    //Bind to this; State cu 3 date;
     constructor(props) {
         super(props);
         this.toggleForm = this.toggleForm.bind(this);
@@ -19,14 +23,16 @@ class APIResponseErrorMessage extends React.Component {
     render()
     {
         return (
+            /* Eroare cannot submit: */
             <div>
-
                 <UncontrolledAlert color="danger">
                     An unexpected error occurred on the server side!
                     { this.state.errorStatus > 1 && <Button color="link"  onClick={this.toggleForm}>Details...</Button>}
                 </UncontrolledAlert>
-
                 { this.state.errorStatus > 1 &&
+
+                    /* Modala pentru introducere persoane: */
+                    /* Body: Erori; Time / Resource / Etc...; */
                 <Modal isOpen={this.state.collapseForm} toggle={this.toggleForm}
                        className={this.props.className}>
                     <ModalHeader toggle={this.toggleForm} className={styles.errorTitle}> Server side error information: </ModalHeader>

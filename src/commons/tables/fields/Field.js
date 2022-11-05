@@ -1,8 +1,12 @@
+//Imports:
 import React from 'react';
 import PropTypes from 'prop-types';
 import './styles/field-style.css';
 
+//Caracteristici react:
 export default class Field extends React.Component {
+
+    //Prop:
     static propTypes = {
         id: PropTypes.string.isRequired,
         locked: PropTypes.bool,
@@ -13,6 +17,7 @@ export default class Field extends React.Component {
         onChange: PropTypes.func,
     };
 
+    //Default:
     static defaultProps = {
         locked: false,
         focused: false,
@@ -21,7 +26,9 @@ export default class Field extends React.Component {
         label: '',
     };
 
+    //Constructor:
     constructor(props) {
+
         super(props);
 
         this.state = {
@@ -32,16 +39,19 @@ export default class Field extends React.Component {
         };
     }
 
+    //Eveniment:
     onChange = event => {
         const value = event.target.value;
         this.setState({value, error: ''});
         return this.props.onChange(event);
     };
 
+    //Returneaza un div;
     render() {
         const {focused, value, error, label} = this.state;
         const {id, locked} = this.props;
-        const fieldClassName = `field ${(locked ? focused : focused || value) && 'focused'} ${locked && !focused && 'locked'}`;
+        const fieldClassName = `field ${(locked ? focused : focused || value) 
+        && 'focused'} ${locked && !focused && 'locked'}`;
 
         return (
             <div className={fieldClassName}>
@@ -61,3 +71,12 @@ export default class Field extends React.Component {
         );
     }
 }
+
+
+
+
+
+
+
+
+
