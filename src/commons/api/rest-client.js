@@ -7,7 +7,7 @@ function performRequest(request, callback){
         .then(
             function(response) {
                 if (response.ok) {
-                    response.json().then(json => callback(json, response.status,null));
+                    response.json().then(json => callback(json, response.status, null));
                 }
                 else {
                     response.json().then(err => callback(null, response.status,  err));

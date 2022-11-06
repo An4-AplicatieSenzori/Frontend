@@ -11,21 +11,27 @@ import {
     NavLink,
     UncontrolledDropdown
 } from 'reactstrap';
+//import "./styles.css";
 
 //Text styles:
 const textStyle = {
     color: 'white',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    //hover: 'red',
+    //hoverStart: 'red'
 };
+
+const dropdownItems = {
+}
 
 //Constanta div:
 const NavigationBar = () => (
     //Inafara de style, mai trebuie puse hrefurile aici!!!
     <div>
-        <Navbar color="dark" light expand="md">
+        <Navbar color="dark" light expand="extra-large">
             <NavbarBrand href="/">
                 <img src={logo} width={"50"}
-                     height={"35"} />
+                     height={"50"} />
             </NavbarBrand>
             <Nav className="mr-auto" navbar>
                 <UncontrolledDropdown nav inNavbar>
@@ -33,9 +39,9 @@ const NavigationBar = () => (
                        Menu
                     </DropdownToggle>
                     <DropdownMenu right >
-                        <DropdownItem>
-                            <NavLink href="/person">Persons</NavLink>
-                            <NavLink href="/error">ErrorsPage</NavLink>
+                        <DropdownItem style = {{backgroundcolor: 'red',}}>
+                            <NavLink href="/User">User</NavLink>
+                            <NavLink href="/Device">Device</NavLink>
                         </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
@@ -47,6 +53,6 @@ const NavigationBar = () => (
 //Export constant;
 export default NavigationBar
 
-
+//<NavLink href="/error">ErrorsPage</NavLink>
 
 

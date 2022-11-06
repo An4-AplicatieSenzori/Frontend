@@ -55,7 +55,11 @@ class Table extends Component
     //Cand schimbi ceva, adaugi ceva, forteaza update;
     handleChange(value, index, header) {
         if (this.state.filters === undefined)
+        {
+            //this.setState('By Name');
             this.setState({filters: []});
+        }
+        //this.setState({filters: []});
 
         this.state.filters[index] = {
             value: value.target.value,
@@ -83,16 +87,17 @@ class Table extends Component
         let data = this.state.data ? this.state.data.filter(data => this.filter(data)) : [];
 
         //On change, se schimba ce trebuie;
+        //header.accessor
         return (
             <div>
-                <Row>
+                <Row style = {{width: '80%'}}>
                     {
                         //style = "background-color: red;"
                         this.state.search.map((header, index) => {
                             return (
                                 <Col key={index}>
                                     <div>
-                                        <Field id={header.accessor} label={header.accessor}
+                                        <Field id={header.accessor} label='Filter By Name'
                                                onChange={(e) => this.handleChange(e, index, header.accessor)}/>
                                     </div>
                                 </Col>
@@ -100,7 +105,7 @@ class Table extends Component
                         })
                     }
                 </Row>
-
+                <p></p>
                 <Row>
                     <Col>
                         <ReactTable
@@ -111,7 +116,10 @@ class Table extends Component
                             getTrProps={this.getTRPropsType}
                             showPagination={true}
                             style={{
-                                height: '300px'
+                                height: '350px',
+                                //padding: '0.5% 0.5% 0.5% 0.5%',
+                                //backgroundcolor: 'red',
+                                //color: 'red',
                                 //backgroundcolor: red
                             }}
                         />
@@ -124,6 +132,7 @@ class Table extends Component
 
 //In toate JS exista exporturi;
 //Poti da export la clasa sau la functie!!!
+//De ce si pe row si pe col?
 export default Table;
 
 

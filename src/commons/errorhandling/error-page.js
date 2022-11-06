@@ -6,9 +6,22 @@ import styles from '../styles/project-style.css';
 class ErrorPage extends React.Component
 {
     render() {
-            return <h3 className={styles.errorTitle}>Page not found.</h3>;
+            return (
+                <div>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <h1 style = {{color: 'red', textAlign: 'center',
+                    margin: '20% 0% 0% 0%'}}>Page not found.</h1>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
+            )
     }
 }
 
+//Trebuie in div! jsx!
+//className={styles.errorTitle}
 //Export la date anume JS;
 export default ErrorPage

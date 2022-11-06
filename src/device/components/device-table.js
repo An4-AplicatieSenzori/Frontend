@@ -1,31 +1,34 @@
-//Imports:
 import React from "react";
 import Table from "../../commons/tables/table";
+//Pentru User + Device! Ambele!
 
-//Header + accessor pentru tabele!!!
-//Constanta coloane: Apar cele 2:
 const columns = [
     {
-        Header: 'Name',
-        accessor: 'name',
+        Header: 'Title',
+        accessor: 'title',
     },
     {
-        Header: 'Age',
-        accessor: 'age',
+        Header: 'Description',
+        accessor: 'description',
+    },
+    {
+        Header: 'Address',
+        accessor: 'address',
+    },
+    {
+        Header: 'HourlyConsumption',
+        accessor: 'hourlyConsumption',
     }
 ];
 
-//Filter de nume: Doar asta aparea!!!
 const filters = [
     {
-        accessor: 'name',
+        accessor: 'title',
     }
 ];
 
-//Clasa de returnat, componenta:
-class PersonTable extends React.Component {
-
-    //Un constructor:
+class DeviceTable extends React.Component
+{
     constructor(props) {
         super(props);
         this.state = {
@@ -33,7 +36,6 @@ class PersonTable extends React.Component {
         };
     }
 
-    //Doar un tabel cu date! Nimic special!
     render() {
         return (
             <Table
@@ -46,5 +48,16 @@ class PersonTable extends React.Component {
     }
 }
 
-//Export la asta!
-export default PersonTable;
+export default DeviceTable;
+
+
+
+
+
+
+
+
+
+
+
+

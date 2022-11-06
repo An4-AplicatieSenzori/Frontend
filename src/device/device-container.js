@@ -1,4 +1,3 @@
-//Importuri: Erori Cards? Cred! Nu stiu de ce atatea!
 import React from 'react';
 import APIResponseErrorMessage from "../commons/errorhandling/api-response-error-message";
 import {
@@ -11,16 +10,23 @@ import {
     ModalHeader,
     Row
 } from 'reactstrap';
-import PersonForm from "./components/person-form";
-import * as API_USERS from "./api/person-api"
-import PersonTable from "./components/person-table";
+import DeviceForm from "./components/device-form";
+import * as API_DEVICES from "./api/device-api"
+import DeviceTable from "./components/device-table";
 
+const managementTitle = {
+    textAlign: 'center',
+    paddingTop: '2%',
+    paddingBottom: '2%',
+    backgroundColor: '#549be2',
+};
 
-//Clasa container: Containerul contine tabelul?
-//Functii din React Component: toggleForm / reload / render...;
-class PersonContainer extends React.Component {
+const divTotal = {
+    overflow: 'hidden',
+};
 
-    //Constructor:
+class DeviceContainer extends React.Component
+{
     constructor(props) {
         super(props);
         this.toggleForm = this.toggleForm.bind(this);
@@ -35,14 +41,12 @@ class PersonContainer extends React.Component {
         };
     }
 
-    //?
     componentDidMount() {
-        this.fetchPersons();
+        this.fetchDevices();
     }
 
-    //Ia datele;
-    fetchPersons() {
-        return API_USERS.getPersons((result, status, err) => {
+    fetchDevices() {
+        return API_DEVICES.getDevices((result, status, err) => {
             if (result !== null && status === 200) {
                 this.setState({
                     tableData: result,
@@ -57,44 +61,37 @@ class PersonContainer extends React.Component {
         });
     }
 
-    //?
     toggleForm() {
         this.setState({selected: !this.state.selected});
     }
 
-    //? Toate una dupa alta, parca pipeline de grafica;
     reload() {
         this.setState({
             isLoaded: false
         });
         this.toggleForm();
-        this.fetchPersons();
+        this.fetchDevices();
     }
 
-    //Return la div:
     render() {
         return (
-            <div>
-                <!-- Aici avem toata pagina persons! -->
-                <!-- Nu stiu de ce cards! Titlul: -->
-                <CardHeader>
-                    <strong> Person Management </strong>
+            <div style={divTotal}>
+                <CardHeader style={managementTitle}>
+                    <strong> Device Management </strong>
                 </CardHeader>
 
-                <!-- Aici este butonul de add: -->
                 <Card>
                     <br/>
                     <Row>
-                        <Col sm={{size: '8', offset: 1}}>
-                            <Button color="primary" onClick={this.toggleForm}>Add Person </Button>
+                        <Col sm={{size: '8', offset: '2'}}>
+                            <Button color="primary" onClick={this.toggleForm}>Add Device</Button>
                         </Col>
                     </Row>
                     <br/>
 
-                    <!-- Aici este tot tabelul: -->
                     <Row>
-                        <Col sm={{size: '8', offset: 1}}>
-                            {this.state.isLoaded && <PersonTable tableData = {this.state.tableData}/>}
+                        <Col sm={{size: '8', offset: '2'}}>
+                            {this.state.isLoaded && <DeviceTable tableData = {this.state.tableData}/>}
                             {this.state.errorStatus > 0 && <APIResponseErrorMessage
                                                             errorStatus={this.state.errorStatus}
                                                             error={this.state.error}
@@ -103,14 +100,12 @@ class PersonContainer extends React.Component {
                     </Row>
                 </Card>
 
-                <!-- Aici este modala, ascunsa, inafara de atunci cand ne trebuie pentru adaugat persoane;
-                 Merge ca un pop up de completat in fata paginii, ca la practica;-->
-                <!-- Toggle la modala, sau la alte componente -->
                 <Modal isOpen={this.state.selected} toggle={this.toggleForm}
                        className={this.props.className} size="lg">
-                    <ModalHeader toggle={this.toggleForm}> Add Person: </ModalHeader>
-                    <ModalBody>
-                        <PersonForm reloadHandler={this.reload}/>
+                    <ModalHeader toggle={this.toggleForm}
+                                 style = {{backgroundColor: "#549be2"}}> Add Device:</ModalHeader>
+                    <ModalBody style = {{backgroundColor: "#549be2"}}>
+                        <DeviceForm reloadHandler={this.reload}/>
                     </ModalBody>
                 </Modal>
             </div>
@@ -118,8 +113,7 @@ class PersonContainer extends React.Component {
     }
 }
 
-//Export final:
-export default PersonContainer;
+export default DeviceContainer;
 
 
 
