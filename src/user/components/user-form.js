@@ -16,6 +16,7 @@ class UserForm extends React.Component {
         this.toggleForm = this.toggleForm.bind(this);
         this.reloadHandler = this.props.reloadHandler;
 
+        //State valid;
         this.state = {
             errorStatus: 0,
             error: null,
@@ -30,7 +31,8 @@ class UserForm extends React.Component {
                     //Validari simple:
                     validationRules: {
                         minLength: 3,
-                        isRequired: true
+                        isRequired: true,
+                        nameValidator: true
                     }
                 },
                 email: {
@@ -39,6 +41,8 @@ class UserForm extends React.Component {
                     valid: false,
                     touched: false,
                     validationRules: {
+                        minLength: 3,
+                        isRequired: true,
                         emailValidator: true
                     }
                 },
@@ -47,22 +51,42 @@ class UserForm extends React.Component {
                     placeholder: 'Age',
                     valid: false,
                     touched: false,
+                    validationRules: {
+                        ageValidator: [18, 120],
+                        minLength: 1,
+                        isRequired: true
+                    }
                 },
                 address: {
                     value: '',
                     placeholder: 'Cluj, Zorilor, Str. Lalelelor 21',
                     valid: false,
                     touched: false,
+                    validationRules: {
+                        minLength: 3,
+                        isRequired: true
+                    }
                 },
                 password: {
                     value: '',
-                    placeholder: '********',
+                    placeholder: '**********',
                     valid: false,
                     touched: false,
                     validationRules: {
-                        passwordValidator: true
+                        passwordValidator: true,
+                        isRequired: true
                     }
                 },
+                role: {
+                    value: '',
+                    placeholder: 'Role: user OR admin',
+                    valid: false,
+                    touched: false,
+                    validationRules: {
+                        isRequired: true,
+                        roleValidator: true
+                    }
+                }
             }
         };
 
@@ -124,7 +148,8 @@ class UserForm extends React.Component {
             email: this.state.formControls.email.value,
             age: this.state.formControls.age.value,
             address: this.state.formControls.address.value,
-            password: this.state.formControls.password.value
+            password: this.state.formControls.password.value,
+            role: this.state.formControls.role.value
         };
 
         //Log in consola, si registrezi!
@@ -148,7 +173,7 @@ class UserForm extends React.Component {
                            required
                     />
                     {this.state.formControls.name.touched && !this.state.formControls.name.valid &&
-                    <div className={"error-message row"}> * Name must have at least 3 characters! </div>}
+                    <div className={"error-message row"}> * Name is not valid! </div>}
                 </FormGroup>
 
                 <FormGroup id='email' style = {{backgroundColor: "#549be2"}}>
@@ -173,6 +198,8 @@ class UserForm extends React.Component {
                            valid={this.state.formControls.address.valid}
                            required
                     />
+                    {this.state.formControls.address.touched && !this.state.formControls.address.valid &&
+                        <div className={"error-message"}> * Address must be valid! </div>}
                 </FormGroup>
 
                 <FormGroup id='age' style = {{backgroundColor: "#549be2"}}>
@@ -185,11 +212,14 @@ class UserForm extends React.Component {
                            valid={this.state.formControls.age.valid}
                            required
                     />
+                    {this.state.formControls.age.touched && !this.state.formControls.age.valid &&
+                        <div className={"error-message"}> * Age must be correct! </div>}
                 </FormGroup>
 
                 <FormGroup id='password' style = {{backgroundColor: "#549be2"}}>
                     <Label for='passwordField'> Password: </Label>
-                    <Input name='password' id='passwordField' placeholder={this.state.formControls.password.placeholder}
+                    <Input type='password' name='password' id='passwordField'
+                           placeholder={this.state.formControls.password.placeholder}
                            onChange={this.handleChange}
                            defaultValue={this.state.formControls.password.value}
                            touched={this.state.formControls.password.touched? 1 : 0}
@@ -197,7 +227,25 @@ class UserForm extends React.Component {
                            required
                     />
                     {this.state.formControls.password.touched && !this.state.formControls.password.valid &&
-                        <div className={"error-message"}> * Password must have a valid format! </div>}
+                        <div className={"error-message"}> * Password must have a valid format!
+                                                            Requirements: Minimum eight and maximum 10 characters, at least one uppercase letter,
+                                                            one lowercase letter, one number and one special character!
+                        </div>}
+                </FormGroup>
+
+                <FormGroup id='role' style = {{backgroundColor: "#549be2"}}>
+                    <Label for='roleField'> Role: </Label>
+                    <Input name='role' id='roleField'
+                           placeholder={this.state.formControls.role.placeholder}
+                           onChange={this.handleChange}
+                           defaultValue={this.state.formControls.role.value}
+                           touched={this.state.formControls.role.touched? 1 : 0}
+                           valid={this.state.formControls.role.valid}
+                           required
+                    />
+                    {this.state.formControls.role.touched && !this.state.formControls.role.valid &&
+                        <div className={"error-message"}> * Role must be user or admin!
+                        </div>}
                 </FormGroup>
 
                     <Row>
@@ -225,6 +273,8 @@ export default UserForm;
 <!-- Address: -->
 <!-- Email: -->
 <!-- Nume: -->
+                           type 'password'
+Name must have at least 3 characters!
 */
 
 

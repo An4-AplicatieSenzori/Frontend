@@ -25,26 +25,39 @@ class DeviceForm extends React.Component
                     touched: false,
                     validationRules: {
                         minLength: 3,
-                        isRequired: true
+                        isRequired: true,
+                        titleValidator: true
                     }
                 },
                 description: {
                     value: '',
                     placeholder: 'Device Description',
                     valid: false,
-                    touched: false
+                    touched: false,
+                    validationRules: {
+                        minLength: 3,
+                        isRequired: true
+                    }
                 },
                 address: {
                     value: '',
                     placeholder: 'Cluj, Zorilor, Str. Lalelelor 21',
                     valid: false,
                     touched: false,
+                    validationRules: {
+                        minLength: 3,
+                        isRequired: true
+                    }
                 },
                 hourlyConsumption: {
                     value: '',
                     placeholder: '2312.54',
                     valid: false,
-                    touched: false
+                    touched: false,
+                    validationRules: {
+                        isRequired: true,
+                        hourlyConsumptionValidator: true
+                    }
                 },
             }
         };
@@ -119,7 +132,7 @@ class DeviceForm extends React.Component
                            required
                     />
                     {this.state.formControls.title.touched && !this.state.formControls.title.valid &&
-                    <div className={"error-message row"}> * Title must have at least 3 characters! </div>}
+                    <div className={"error-message row"}> * Title must follow the structure! </div>}
                 </FormGroup>
 
                 <FormGroup id='description' style = {{backgroundColor: "#549be2"}}>
@@ -132,7 +145,7 @@ class DeviceForm extends React.Component
                            required
                     />
                     {this.state.formControls.description.touched && !this.state.formControls.description.valid &&
-                    <div className={"error-message"}> * Description must have a valid ! </div>}
+                    <div className={"error-message"}> * Description must be valid! </div>}
                 </FormGroup>
 
                 <FormGroup id='address' style = {{backgroundColor: "#549be2"}}>
@@ -144,6 +157,8 @@ class DeviceForm extends React.Component
                            valid={this.state.formControls.address.valid}
                            required
                     />
+                    {this.state.formControls.address.touched && !this.state.formControls.address.valid &&
+                        <div className={"error-message row"}> * Address must be valid! </div>}
                 </FormGroup>
 
                 <FormGroup id='hourlyConsumption' style = {{backgroundColor: "#549be2"}}>
@@ -156,6 +171,8 @@ class DeviceForm extends React.Component
                            valid={this.state.formControls.hourlyConsumption.valid}
                            required
                     />
+                    {this.state.formControls.hourlyConsumption.touched && !this.state.formControls.hourlyConsumption.valid &&
+                        <div className={"error-message row"}> * You must enter correct values! </div>}
                 </FormGroup>
 
                     <Row>
