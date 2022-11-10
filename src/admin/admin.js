@@ -1,8 +1,5 @@
-//Pagina de prezentare, cu buton de login and register!
 import React from 'react';
-
-//import BackgroundImg from '../commons/images/future-medicine.jpg';
-import BackgroundImg from '../commons/images/energy.jpeg'; //???
+import BackgroundImg from '../commons/images/admin.webp'; //???
 
 //Din react:
 import {Button, Container, Jumbotron} from 'reactstrap';
@@ -27,25 +24,10 @@ const textStyle =
     paddingBottom: '5%'
     };
 
-const buttonStyle =
-    {
-      //alignContent: 'auto',
-      //paddingLeft: '50%',
-      marginLeft: '45%',
-      padding: '1% 4.5% 1% 4.5%',
-    };
-
-const buttonStyle2 =
-    {
-        marginLeft: '45%',
-        backgroundColor: '#0a0303',
-        padding: '1% 4% 1% 4%',
-    };
-
 
 
 //Tot componenta react, Home:
-class Home extends React.Component {
+class Admin extends React.Component {
 
     //Doar metoda, nu public pricate static?
     render() {
@@ -56,7 +38,7 @@ class Home extends React.Component {
                     <Container fluid>
 
                         <h1 className="display-3" style={{textAlign: 'center',
-                        color: '#000000', marginBottom: '5%'}}>Energy monitoring platform</h1>
+                        color: '#000000', marginBottom: '5%'}}>Admin Page</h1>
 
                         <p className="lead" style={textStyle}> <b>
                             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -91,8 +73,7 @@ class Home extends React.Component {
 
 
 //Export:
-//export default HomeContainer;
-export default Home
+export default Admin
 
 
 /*
@@ -113,20 +94,6 @@ Cel original:
     <Button color="primary" onClick={() => window.open('http://coned.utcluj.ro/~salomie/DS_Lic/')}>Learn
         More</Button>
 </p>
-
-Pentru login redirect la o pagina sau la cealalta;
-
-                        <p className="lead">
-                            <Button color="primary" style={buttonStyle}>
-                                Login
-                            </Button>
-
-                            <p></p>
-
-                            <Button color="primary" style={buttonStyle2}>
-                                Register
-                            </Button>
-                        </p>
 */
 
 

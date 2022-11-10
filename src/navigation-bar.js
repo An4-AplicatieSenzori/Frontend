@@ -27,9 +27,10 @@ const dropdownItems = {
 //Constanta div:
 const NavigationBar = () => (
     //Inafara de style, mai trebuie puse hrefurile aici!!!
+    //Href devine admin page pentru a pune acolo informatiile!
     <div>
         <Navbar color="dark" light expand="extra-large">
-            <NavbarBrand href="/">
+            <NavbarBrand href="/admin">
                 <img src={logo} width={"50"}
                      height={"50"} />
             </NavbarBrand>
@@ -39,10 +40,15 @@ const NavigationBar = () => (
                        Menu
                     </DropdownToggle>
                     <DropdownMenu right >
-                        <DropdownItem style = {{backgroundcolor: 'red',}}>
-                            <NavLink href="/User">User</NavLink>
-                            <NavLink href="/Device">Device</NavLink>
+
+                        <DropdownItem style = {{color: "#d01010"}}>
+                            <NavLink href="/admin/user">User</NavLink>
                         </DropdownItem>
+
+                        <DropdownItem style = {{color: "#1c3b9f"}}>
+                            <NavLink href="/admin/device">Device</NavLink>
+                        </DropdownItem>
+
                     </DropdownMenu>
                 </UncontrolledDropdown>
             </Nav>
@@ -50,9 +56,12 @@ const NavigationBar = () => (
     </div>
 );
 
+
+
 //Export constant;
 export default NavigationBar
 
+//backgroundcolor: "#d01010"
 //<NavLink href="/error">ErrorsPage</NavLink>
 
 

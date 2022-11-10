@@ -1,12 +1,7 @@
-//Imports:
+/*
 import React from "react";
 import Table from "../../commons/tables/table";
 
-
-
-//AICI PUI TOATE FIELDURILE PE CARE LE AFISEZI;
-//Header + accessor pentru tabele!!!
-//Constanta coloane: Apar cele 2:
 const columns = [
     {
         Header: 'Name',
@@ -24,42 +19,18 @@ const columns = [
         Header: 'Email',
         accessor: 'email',
     }
-    /*
-    ,
-    {
-        Header: 'Password',
-        accessor: 'password',
-    }
-    */
 ];
 
 
-
-//AICI PUI TOATE FIELDURILE DUPA CARE FILTREZI:
-//Filter de nume: Doar asta aparea!!!
 const filters = [
     {
         accessor: 'email',
     },
-    /*
-    {
-        accessor: 'name',
-    }
-    {
-        accessor: 'age',
-    },
-    {
-        accessor: 'address',
-    },
-    */
 ];
 
 
+class HomeTable extends React.Component {
 
-//Clasa de returnat, componenta:
-class UserTable extends React.Component {
-
-    //Un constructor:
     constructor(props) {
         super(props);
         this.state = {
@@ -67,9 +38,6 @@ class UserTable extends React.Component {
         };
     }
 
-
-
-    //Doar un tabel cu date! Nimic special!
     render() {
         return (
             <Table
@@ -82,12 +50,9 @@ class UserTable extends React.Component {
     }
 }
 
+export default HomeTable;
 
-
-//Export la asta!
-export default UserTable;
-
-
+*/
 
 
 

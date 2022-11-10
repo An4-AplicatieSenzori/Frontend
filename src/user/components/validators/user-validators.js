@@ -1,4 +1,5 @@
 //Constante JavaScript:
+//Am terminat validarile;
 
 //Hook:
 //1) Pentru litera mare, fara cifre, cu spatii intre nu la final;

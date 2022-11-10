@@ -1,6 +1,5 @@
 import React from "react";
 import Table from "../../commons/tables/table";
-//Pentru User + Device! Ambele!
 
 const columns = [
     {
@@ -22,15 +21,12 @@ const columns = [
 ];
 
 const filters = [
-    /*{
-        accessor: 'title',
-    },*/
     {
         accessor: 'hourlyConsumption'
-    }
+    },
 ];
 
-class DeviceTable extends React.Component
+class ClientTable extends React.Component
 {
     constructor(props) {
         super(props);
@@ -51,7 +47,7 @@ class DeviceTable extends React.Component
     }
 }
 
-export default DeviceTable;
+export default ClientTable;
 
 
 

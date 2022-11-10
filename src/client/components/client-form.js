@@ -1,36 +1,29 @@
-//Import:
+/*
 import React from 'react';
-import validate from "./validators/user-validators";
+import validate from "./validators/client-validators";
 import Button from "react-bootstrap/Button";
-import * as API_USERS from "../api/user-api";
+import * as API_USERS from "../api/client-api";
 import APIResponseErrorMessage from "../../commons/errorhandling/api-response-error-message";
 import {Col, Row} from "reactstrap";
 import { FormGroup, Input, Label} from 'reactstrap';
 
+class ClientForm extends React.Component {
 
-
-//Componenta react:
-class UserForm extends React.Component {
-
-    //Constructor props:
     constructor(props) {
         super(props);
         this.toggleForm = this.toggleForm.bind(this);
         this.reloadHandler = this.props.reloadHandler;
 
-        //State valid;
         this.state = {
             errorStatus: 0,
             error: null,
             formIsValid: false,
-            //Ce iti apare:
             formControls: {
                 name: {
                     value: '',
                     placeholder: 'What is your name?',
                     valid: false,
                     touched: false,
-                    //Validari simple:
                     validationRules: {
                         minLength: 3,
                         isRequired: true,
@@ -81,7 +74,7 @@ class UserForm extends React.Component {
                 },
                 role: {
                     value: '',
-                    placeholder: 'Role: -client- OR -admin-',
+                    placeholder: 'Role: user OR admin',
                     valid: false,
                     touched: false,
                     validationRules: {
@@ -92,28 +85,20 @@ class UserForm extends React.Component {
             }
         };
 
-        //Ceva pentru bind;
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
-
-    //?
     toggleForm() {
         this.setState({collapseForm: !this.state.collapseForm});
     }
 
-
-
-    //Cand schimbi:
     handleChange = event => {
         const name = event.target.name;
         const value = event.target.value;
         const updatedControls = this.state.formControls;
         const updatedFormElement = updatedControls[name];
 
-        //Cand faci update:
         updatedFormElement.value = value;
         updatedFormElement.touched = true;
         updatedFormElement.valid = validate(value, updatedFormElement.validationRules);
@@ -131,33 +116,23 @@ class UserForm extends React.Component {
     };
 
 
-
-    //Inserari successful!
-    registerUser(user) {
-        return API_USERS.postUser(user, (result, status, error) => {
-            //Te uiti la statusul returnat!
-            if (result !== null && (status === 200 || status === 201)) {
-                console.log("Successfully inserted user with id: " + result + " !");
-                this.reloadHandler();
-                //Si erori handling:
-
-                //Ce tipe este:
-                //Type bun aici!!
-                //console.log("Result type: " + typeof result);
-            } else {
-                this.setState(({
-                    errorStatus: status,
-                    error: error
-                }));
-            }
-        });
-    }
+    //registerUser(user) {
+    //    return API_USERS.postUser(user, (result, status, error) => {
+    //        if (result !== null && (status === 200 || status === 201)) {
+    //            console.log("Successfully inserted user with id: " + result + " !");
+    //            this.reloadHandler();
+    //        } else {
+    //            this.setState(({
+    //                errorStatus: status,
+    //                error: error
+    //            }));
+    //        }
+    //    });
+    //}
 
 
-
-    //Cand dai submit, salvezi valorile;
     handleSubmit() {
-        let user = {
+        let client = {
             name: this.state.formControls.name.value,
             email: this.state.formControls.email.value,
             age: this.state.formControls.age.value,
@@ -166,17 +141,10 @@ class UserForm extends React.Component {
             role: this.state.formControls.role.value
         };
 
-        //Log in consola, si registrezi!
-        console.log(user);
-        this.registerUser(user);
+        console.log(client);
+        this.registerUser(client);
     }
 
-
-
-    //DOAR FORMURILE, UNDE INTRODUCI INFORMATIA:
-    //Render la persoana: Multe componente noi:
-    //{this.state.formControls.name.placeholder}
-    //De ce nu scrie modala aici???
     render() {
         return (
             <div>
@@ -273,8 +241,6 @@ class UserForm extends React.Component {
                     </Col>
                 </Row>
                 {
-                    //Cand nu este pornit backend;
-                    //Cod C: Return erori! Poti in Div pune cod asa!
                     this.state.errorStatus > 0 &&
                     <APIResponseErrorMessage errorStatus={this.state.errorStatus} error={this.state.error}/>
                 }
@@ -283,19 +249,7 @@ class UserForm extends React.Component {
     }
 }
 
-
-
-//Export!
-export default UserForm;
-
-/*
-<!-- Buton submit: -->
-<!-- Age: -->
-<!-- Address: -->
-<!-- Email: -->
-<!-- Nume: -->
-                           type 'password'
-Name must have at least 3 characters!
+export default ClientForm;
 */
 
 
