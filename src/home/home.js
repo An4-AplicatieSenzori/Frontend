@@ -59,27 +59,12 @@ class Home extends React.Component {
                         color: '#000000', marginBottom: '5%'}}>Energy monitoring platform</h1>
 
                         <p className="lead" style={textStyle}> <b>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and scrambled it to make a type
-                            specimen book. It has survived not only five centuries, but also the leap into
-                            electronic typesetting, remaining essentially unchanged. It was popularised in
-                            the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                            and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.
+                            Renowned for our expertise in the field of precision measurement in high-current applications,
+                            EnergyConsumptionMeasuringCompany has been a leading global provider of advanced measuring systems for many years.
+                            Marketed under the ISA® brand, our precision measuring systems offer exceptionally high performance.
+                            Our commitment to achieving the ultimate in precision is combined with ease of use and a
+                            high degree of variability!
                         </b> </p>
-
-                        <hr className="my-2"/>
-
-                        <p  style={textStyle}> <b>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and scrambled it to make a type
-                            specimen book. It has survived not only five centuries, but also the leap into
-                            electronic typesetting, remaining essentially unchanged. It was popularised in
-                            the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                            and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.</b> </p>
 
                     </Container>
                 </Jumbotron>
@@ -99,6 +84,19 @@ export default Home
 <Button color="primary" onClick={() => window.open('https://www.youtube.com/feed/subscriptions')}
                             style={buttonStyle}>
                                 Learn More</Button>
+
+
+
+Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and scrambled it to make a type
+                            specimen book. It has survived not only five centuries, but also the leap into
+                            electronic typesetting, remaining essentially unchanged. It was popularised in
+                            the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                            and more recently with desktop publishing software like Aldus PageMaker including
+                            versions of Lorem Ipsum.
+
+
 
 <!-- Modificat: -->
 Cel original:

@@ -8,6 +8,7 @@ import HomeContainer from './home/home-container'
 import ClientContainer from './client/client-container'
 import UserContainer from './user/user-container'
 import DeviceContainer from './device/device-container'
+import AdminContainer from './admin/admin-container'
 import ErrorPage from './commons/errorhandling/error-page';
 import styles from './commons/styles/project-style.css';
 
@@ -37,7 +38,7 @@ class App extends React.Component {
                             render={() =>
                                 <div>
                                     <NavigationBar/>
-                                    <Admin/>
+                                    <AdminContainer/>
                                 </div>
                         }/>
                         <Route

@@ -24,7 +24,29 @@ function getDevices(callback) {
 }
 
 
+//Same function:
+function getUserRole(callback){
+    let request = new Request(HOST.backend_api + endpoint.clientUser + "/userRole", {
+        method: 'GET',
+    });
+    console.log(request.url);
+    RestApiClient.performRequest(request, callback);
+}
+
+
+function getUserName(callback){
+    let request = new Request(HOST.backend_api + endpoint.clientUser + "/userName", {
+        method: 'GET',
+    });
+    console.log(request.url);
+    RestApiClient.performRequest(request, callback);
+}
+
+//Nu trebuie functie pentru buton de back;
+
 export {
+    getUserRole,
+    getUserName,
     getDevices,
 };
 

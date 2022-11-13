@@ -10,12 +10,11 @@ import {
     ModalHeader,
     Row
 } from 'reactstrap';
-//import ClientForm from "./components/client-form";
-import * as API_CLIENT from "./api/client-api"
-import ClientTable from "./components/client-table";
-import * as API_USERS from "../user/api/user-api";
+//import AdminForm from "./components/admin-form";
+import * as API_ADMIN from "./api/admin-api"
+//import AdminTable from "./components/admin-table";
 import { withRouter } from "react-router-dom";
-
+import * as API_CLIENT from "../client/api/client-api";
 
 
 const managementTitle = {
@@ -35,9 +34,10 @@ const buttonStyle = {
     height: '100%'
 };
 
-class ClientContainer extends React.Component
+class AdminContainer extends React.Component
 {
-    userName = "noName";
+    //User Name Admin!
+    //userNameAdmin = "userName"; //''W
 
     constructor(props) {
         super(props);
@@ -49,37 +49,19 @@ class ClientContainer extends React.Component
             tableData: [],
             isLoaded: false,
             errorStatus: 0,
-            error: null
+            error: null,
+            userName: "userNameAdmin",
         };
     }
 
-    //Pentru date din backend:
     componentDidMount() {
         //this.redirectToHome();
         this.fetchUserRole();
         this.fetchUserName();
-        this.fetchDevices();
     }
-
-    fetchDevices() {
-        return API_CLIENT.getDevices((result, status, err) => {
-            if (result !== null && status === 200) {
-                this.setState({
-                    tableData: result,
-                    isLoaded: true
-                });
-            } else {
-                this.setState(({
-                    errorStatus: status,
-                    error: err
-                }));
-            }
-        });
-    }
-
 
     fetchUserRole() {
-        return API_CLIENT.getUserRole((result, status, err) => {
+        return API_ADMIN.getUserRole((result, status, err) => {
             if (result !== null && status === 200) {
                 //Home:
                 if(result === "noRole")
@@ -90,8 +72,8 @@ class ClientContainer extends React.Component
                 //Admin:
                 else if(result === "admin")
                 {
-                    let newPath = '/admin';
-                    this.props.history.push(newPath);
+                    //let newPath = '/admin';
+                    //this.props.history.push(newPath);
                 }
                 //Client:
                 else if(result === "client")
@@ -111,14 +93,20 @@ class ClientContainer extends React.Component
     }
 
 
-
-    //Result:
     fetchUserName() {
-        return API_CLIENT.getUserName((result, status, err) => {
+        return API_ADMIN.getUserName((result, status, err) => {
             if (result !== null && status === 200) {
-                //Dam numele mai departe;
-                this.userName = result; //Recunoaste cu this;
-                //this.userName = "Altceva";
+
+                //NU MERGE!!!
+                //this.userNameAdmin = result;
+                //this.userNameAdmin = "Altceva";
+
+                //MERGE ASTA!!!
+                //2 sau 1 paranteza:
+                this.setState({
+                    userName: result,
+                });
+
             }
             else {
                 this.setState(({
@@ -129,21 +117,20 @@ class ClientContainer extends React.Component
         });
     }
 
-    //Pentru form:
+
     toggleForm() {
         this.setState({selected: !this.state.selected});
     }
 
+    //Nu merge aici?
     redirectToHome() {
         //To home:
-        //De ce nu am acces la history aici dar am in celelalte parti?
         let newPath = '/';
         //this.props.history.push(newPath);
         //return this.props.history.push(newPath);
     }
 
     //Si aici:
-    //Back la pagina anterioara;
     reload() {
         this.setState({
             isLoaded: false
@@ -151,31 +138,20 @@ class ClientContainer extends React.Component
         this.toggleForm();
         this.fetchUserRole();
         this.fetchUserName();
-        this.fetchDevices();
         //this.redirectToHome();
     }
 
     render() {
+
+        //NU MERGE: onClick={this.redirectToHome}>Back</Button>
+
         return (
             <div style={divTotal}>
                 <CardHeader style={managementTitle}>
-                    <strong> Hello {this.userName}! These are your devices: </strong>
+                    <strong> Hello {this.state.userName}! Good luck at managing! </strong>
                 </CardHeader>
 
                 <Card>
-
-                    <br/>
-
-                    <Row>
-                        <Col sm={{size: '8', offset: '2'}}>
-                            {this.state.isLoaded && <ClientTable tableData = {this.state.tableData}/>}
-                            {this.state.errorStatus > 0 && <APIResponseErrorMessage
-                                                            errorStatus={this.state.errorStatus}
-                                                            error={this.state.error}
-                                                        />   }
-                        </Col>
-                    </Row>
-
                     <br/>
 
                     <Row>
@@ -197,16 +173,10 @@ class ClientContainer extends React.Component
     }
 }
 
-//Si pentru back redirect este prop history!
-export default withRouter(ClientContainer);
+export default withRouter(AdminContainer);
 
 /*
-
-Sunt functii care nu dau returnm void, care seteaza lucruri;
-Sunt functii care dau return, si schimba flow;
-
-props.history.push('/')
-
+ {this.userNameAdmin}
 <Modal isOpen={this.state.selected} toggle={this.toggleForm}
                        className={this.props.className} size="lg">
                     <ModalHeader toggle={this.toggleForm}
@@ -215,6 +185,24 @@ props.history.push('/')
                         <ClientForm reloadHandler={this.reload}/>
                     </ModalBody>
                 </Modal>
+
+
+
+<Card>
+
+                    <br/>
+
+                    <Row>
+                        <Col sm={{size: '8', offset: '2'}}>
+                            {this.state.isLoaded && <AdminTable tableData = {this.state.tableData}/>}
+                            {this.state.errorStatus > 0 && <APIResponseErrorMessage
+                                                            errorStatus={this.state.errorStatus}
+                                                            error={this.state.error}
+                                                        />   }
+                        </Col>
+                    </Row>
+                </Card>
+
 
 */
 

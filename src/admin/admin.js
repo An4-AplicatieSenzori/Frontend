@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import BackgroundImg from '../commons/images/admin.webp'; //???
 
@@ -74,6 +75,7 @@ class Admin extends React.Component {
 
 //Export:
 export default Admin
+*/
 
 
 /*

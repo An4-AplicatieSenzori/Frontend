@@ -33,6 +33,8 @@ const divTotal = {
 //Functii din React Component: toggleForm / reload / render...;
 class UserContainer extends React.Component
 {
+    //userName = 'noName';
+
     //Constructor:
     constructor(props) {
         super(props);
@@ -106,6 +108,7 @@ class UserContainer extends React.Component
                 else if(result === "admin")
                 {
                     //Nothing! Nu trebuie facut nimic!
+                    //Daca faci ceva, te duce la admin!
                     //let newPath = '/admin';
                     //this.props.history.push(newPath);
                 }
@@ -155,11 +158,21 @@ class UserContainer extends React.Component
 
                 <Card>
                     <br/>
-                    <Row>
-                        <Col sm={{size: '8', offset: '2'}}>
+
+                    <Row style = {{marginLeft: "9.5%"}}>
+                        <Col sm={{size: '0', offset: '1'}}>
                             <Button color="primary" onClick={this.toggleForm}>Add User</Button>
                         </Col>
+
+                        <Col sm={{size: '0', offset: '1'}}>
+                            <Button color="primary" onClick={this.toggleForm}>Update User</Button>
+                        </Col>
+
+                        <Col sm={{size: '0', offset: '1'}}>
+                            <Button color="primary" onClick={this.toggleForm}>Delete User</Button>
+                        </Col>
                     </Row>
+
                     <br/>
 
                     <Row>

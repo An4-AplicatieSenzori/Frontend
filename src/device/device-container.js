@@ -13,6 +13,9 @@ import {
 import DeviceForm from "./components/device-form";
 import * as API_DEVICES from "./api/device-api"
 import DeviceTable from "./components/device-table";
+import { withRouter } from "react-router-dom";
+import * as API_CLIENT from "../client/api/client-api";
+
 
 const managementTitle = {
     textAlign: 'center',
@@ -42,6 +45,7 @@ class DeviceContainer extends React.Component
     }
 
     componentDidMount() {
+        this.fetchUserRole();
         this.fetchDevices();
     }
 
@@ -61,6 +65,43 @@ class DeviceContainer extends React.Component
         });
     }
 
+
+    //Same function:
+    //Toata lumea are acces doar la pagina lui:
+    fetchUserRole() {
+        return API_DEVICES.getUserRole((result, status, err) => {
+            if (result !== null && status === 200) {
+                //Home:
+                if(result === "noRole")
+                {
+                    let newPath = '/';
+                    this.props.history.push(newPath);
+                }
+                //Admin:
+                else if(result === "admin")
+                {
+                    //let newPath = '/admin';
+                    //this.props.history.push(newPath);
+                }
+                //Client:
+                else if(result === "client")
+                {
+                    //Este doar o pagina oricum:
+                    //Asa oricum te duce la pagina aia;
+                    let newPath = '/client';
+                    this.props.history.push(newPath);
+                }
+            }
+            else {
+                this.setState(({
+                    errorStatus: status,
+                    error: err
+                }));
+            }
+        });
+    }
+
+
     toggleForm() {
         this.setState({selected: !this.state.selected});
     }
@@ -70,6 +111,7 @@ class DeviceContainer extends React.Component
             isLoaded: false
         });
         this.toggleForm();
+        this.fetchUserRole();
         this.fetchDevices();
     }
 
@@ -82,9 +124,17 @@ class DeviceContainer extends React.Component
 
                 <Card>
                     <br/>
-                    <Row>
-                        <Col sm={{size: '8', offset: '2'}}>
+                    <Row style = {{marginLeft: "9.5%"}}>
+                        <Col sm={{size: '0', offset: '1'}}>
                             <Button color="primary" onClick={this.toggleForm}>Add Device</Button>
+                        </Col>
+
+                        <Col sm={{size: '0', offset: '1'}}>
+                            <Button color="primary" onClick={this.toggleForm}>Update Device</Button>
+                        </Col>
+
+                        <Col sm={{size: '0', offset: '1'}}>
+                            <Button color="primary" onClick={this.toggleForm}>Delete Device</Button>
                         </Col>
                     </Row>
                     <br/>
@@ -113,7 +163,7 @@ class DeviceContainer extends React.Component
     }
 }
 
-export default DeviceContainer;
+export default withRouter(DeviceContainer);
 
 
 

@@ -2,8 +2,19 @@ import {HOST} from '../../commons/hosts';
 import RestApiClient from "../../commons/api/rest-client";
 
 const endpoint = {
-    device: '/device'
+    device: '/device',
+    user: '/user'
 };
+
+
+function getUserRole(callback){
+    let request = new Request(HOST.backend_api + endpoint.user + "/userRole", {
+        method: 'GET',
+    });
+    console.log(request.url);
+    RestApiClient.performRequest(request, callback);
+}
+
 
 //Get all:
 function getDevices(callback) {
@@ -16,7 +27,7 @@ function getDevices(callback) {
 
 //Get 1 by id:
 function getDeviceById(params, callback){
-    let request = new Request(HOST.backend_api + endpoint.Device + params.id, {
+    let request = new Request(HOST.backend_api + endpoint.device + params.id, {
        method: 'GET'
     });
 
@@ -40,6 +51,7 @@ function postDevice(device, callback){
 }
 
 export {
+    getUserRole,
     getDevices,
     getDeviceById,
     postDevice
