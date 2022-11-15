@@ -11,7 +11,9 @@ import {
     ModalHeader,
     Row
 } from 'reactstrap';
-import UserForm from "./components/user-form";
+import UserFormInsert from "./components/user-form-insert";
+import UserFormUpdate from "./components/user-form-update";
+import UserFormDelete from "./components/user-form-delete";
 import * as API_USERS from "./api/user-api" //Pagina API;
 import UserTable from "./components/user-table";
 import { withRouter } from "react-router-dom";
@@ -38,10 +40,16 @@ class UserContainer extends React.Component
     //Constructor:
     constructor(props) {
         super(props);
-        this.toggleForm = this.toggleForm.bind(this);
-        this.reload = this.reload.bind(this);
+        this.toggleFormInsert = this.toggleFormInsert.bind(this);
+        this.toggleFormUpdate = this.toggleFormUpdate.bind(this);
+        this.toggleFormDelete = this.toggleFormDelete.bind(this);
+        this.reloadInsert = this.reloadInsert.bind(this);
+        this.reloadUpdate = this.reloadUpdate.bind(this);
+        this.reloadDelete = this.reloadDelete.bind(this);
         this.state = {
-            selected: false,
+            selectedInsert: false,
+            selectedUpdate: false,
+            selectedDelete: false,
             collapseForm: false,
             tableData: [],
             isLoaded: false,
@@ -51,6 +59,8 @@ class UserContainer extends React.Component
     }
 
     //? Face toate geturile, fetchurile, nu stiu daca se fac in ordine;
+    //Asta este doar pentru ce sa apara la INCEPUT pe pagina;
+    //Form in modala de exemplu este la buton!!!
     componentDidMount() {
         //Cate fetchuri doresti;
         //Se fac in ordine? Pun redirect first just in case, sa nu proceseze
@@ -130,20 +140,50 @@ class UserContainer extends React.Component
     }
 
 
-    //?
-    toggleForm() {
-        this.setState({selected: !this.state.selected});
+    //? Deschide orice form, in modala;
+    toggleFormInsert() {
+        this.setState({selectedInsert: !this.state.selectedInsert});
     }
 
+    toggleFormUpdate() {
+        this.setState({selectedUpdate: !this.state.selectedUpdate});
+    }
+
+    toggleFormDelete() {
+        this.setState({selectedDelete: !this.state.selectedDelete});
+    }
+
+    //Oare trebuie is loaded de 3 ori?
     //? Toate una dupa alta, parca pipeline de grafica;
-    reload() {
+    reloadInsert() {
         this.setState({
-            isLoaded: false
+            isLoaded: false //Nu are legatura cu modala!
         });
-        this.toggleForm();
+        this.toggleFormInsert();
+        //this.toggleFormUpdate();
+        //this.toggleFormDelete();
         this.fetchUserRole();
         this.fetchUsers();
     }
+
+    reloadUpdate() {
+        this.setState({
+            isLoaded: false
+        });
+        this.toggleFormUpdate();
+        this.fetchUserRole();
+        this.fetchUsers();
+    }
+
+    reloadDelete() {
+        this.setState({
+            isLoaded: false
+        });
+        this.toggleFormDelete();
+        this.fetchUserRole();
+        this.fetchUsers();
+    }
+
 
 
 
@@ -161,15 +201,15 @@ class UserContainer extends React.Component
 
                     <Row style = {{marginLeft: "9.5%"}}>
                         <Col sm={{size: '0', offset: '1'}}>
-                            <Button color="primary" onClick={this.toggleForm}>Add User</Button>
+                            <Button color="primary" onClick={this.toggleFormInsert}>Add User</Button>
                         </Col>
 
                         <Col sm={{size: '0', offset: '1'}}>
-                            <Button color="primary" onClick={this.toggleForm}>Update User</Button>
+                            <Button color="primary" onClick={this.toggleFormUpdate}>Update User</Button>
                         </Col>
 
                         <Col sm={{size: '0', offset: '1'}}>
-                            <Button color="primary" onClick={this.toggleForm}>Delete User</Button>
+                            <Button color="primary" onClick={this.toggleFormDelete}>Delete User</Button>
                         </Col>
                     </Row>
 
@@ -186,12 +226,30 @@ class UserContainer extends React.Component
                     </Row>
                 </Card>
 
-                <Modal isOpen={this.state.selected} toggle={this.toggleForm}
+                <Modal isOpen={this.state.selectedInsert} toggle={this.toggleFormInsert}
                        className={this.props.className} size="lg">
-                    <ModalHeader toggle={this.toggleForm}
+                    <ModalHeader toggle={this.toggleFormInsert}
                                  style = {{backgroundColor: "#549be2"}}> Add User:</ModalHeader>
                     <ModalBody style = {{backgroundColor: "#549be2"}}>
-                        <UserForm reloadHandler={this.reload}/>
+                        <UserFormInsert reloadHandler={this.reloadInsert}/>
+                    </ModalBody>
+                </Modal>
+
+                <Modal isOpen={this.state.selectedUpdate} toggle={this.toggleFormUpdate}
+                       className={this.props.className} size="lg">
+                    <ModalHeader toggle={this.toggleFormUpdate}
+                                 style = {{backgroundColor: "#549be2"}}> Update User:</ModalHeader>
+                    <ModalBody style = {{backgroundColor: "#549be2"}}>
+                        <UserFormUpdate reloadHandler={this.reloadUpdate}/>
+                    </ModalBody>
+                </Modal>
+
+                <Modal isOpen={this.state.selectedDelete} toggle={this.toggleFormDelete}
+                       className={this.props.className} size="lg">
+                    <ModalHeader toggle={this.toggleFormDelete}
+                                 style = {{backgroundColor: "#549be2"}}> Delete User:</ModalHeader>
+                    <ModalBody style = {{backgroundColor: "#549be2"}}>
+                        <UserFormDelete reloadHandler={this.reloadDelete}/>
                     </ModalBody>
                 </Modal>
             </div>

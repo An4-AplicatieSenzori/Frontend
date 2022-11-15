@@ -11,10 +11,14 @@ import {
     Row
 } from 'reactstrap';
 //import ClientForm from "./components/client-form";
+import ClientChart from "./components/client-chart";
+import ClientDescription from "./components/client-description";
 import * as API_CLIENT from "./api/client-api"
 import ClientTable from "./components/client-table";
 import * as API_USERS from "../user/api/user-api";
 import { withRouter } from "react-router-dom";
+import UserFormInsert from "../user/components/user-form-insert";
+import ClientFormDescription from "./components/client-description";
 
 
 
@@ -35,35 +39,81 @@ const buttonStyle = {
     height: '100%'
 };
 
+//Merge in functii asa:
+/*let params = {
+    id: null,
+}*/
+
 class ClientContainer extends React.Component
 {
     userName = "noName";
+    // params = {
+    //     id: null,
+    // }
 
+    //TREBUIE INAFARA CLASEI!!!
+
+    //Global sau State;
+    //Params nu in state, in afara;
     constructor(props) {
         super(props);
         this.toggleForm = this.toggleForm.bind(this);
+        this.toggleFormChart = this.toggleFormChart.bind(this);
         this.reload = this.reload.bind(this);
+        this.reloadDescription = this.reloadDescription.bind(this);
+        //this.reloadChart = this.reloadChart.bind(this);
         this.state = {
             selected: false,
+            selectedChart: false,
             collapseForm: false,
             tableData: [],
             isLoaded: false,
             errorStatus: 0,
-            error: null
+            error: null,
         };
+        //this.params = {
+        //    id: null,
+        //}
     }
 
+    //Cum faci in ordine?
     //Pentru date din backend:
+    //Requesturi concurente:
     componentDidMount() {
         //this.redirectToHome();
         this.fetchUserRole();
+        //Nu apelez aici concurent, ci pun sa fie in alta functie!!!
+        //Complicat:
+        //this.fetchUserId();
         this.fetchUserName();
-        this.fetchDevices();
+        this.fetchClientDevices(); //(this.params);
     }
 
-    fetchDevices() {
-        return API_CLIENT.getDevices((result, status, err) => {
+    //Pentru admin, trebuie alta functie pentru client:
+    //fetchDevices() {
+    //Trebuie dat si aici un id:
+    //Params = Parametrii transmisi catre backend prin api;
+    //Callback = Ce returneaza, result, status si daca exista eroare;
+    //Reload la tabel;
+    fetchClientDevices() //(params)
+    {
+        //Ar trebui sa fie ordinea buna si sa nu mai puna null acum!!!
+        //NU MERGE ORDINEA!!!
+        //this.fetchUserId();
+
+        //Setare params cu id al userului:
+        //Il setam defapt in alt get;
+        //De ce se sterge?
+        //console.log("User id in params: " + this.params.id);
+
+        //return API_CLIENT.getClientDevices(this.params,(result, status, err) => {
+        return API_CLIENT.getClientDevices((result, status, err) => {
             if (result !== null && status === 200) {
+
+                //Aici putem folosi lista de result, sau ce se primeste;
+                //Trebuie trimisa lista, altfel nu putem afisa tabelul;
+                //Nici o validare la tabel;
+
                 this.setState({
                     tableData: result,
                     isLoaded: true
@@ -112,6 +162,31 @@ class ClientContainer extends React.Component
 
 
 
+    //Nu dam params, trebuie doar luat id si setat;
+    /*
+    fetchUserId() {
+        return API_CLIENT.getUserId((result, status, err) => {
+            if (result !== null && status === 200) {
+                //Selectat params id: Un String! Char! Idk!
+                //this.params.id = result;
+                //Nu este din clasa, din afara acel let!!!
+
+                //Ia result bine:
+                console.log("User id fetch: " + result);
+                this.params.id = result; //This neaparat?
+            }
+            else {
+                this.setState(({
+                    errorStatus: status,
+                    error: err
+                }));
+            }
+        });
+    }
+    */
+
+
+
     //Result:
     fetchUserName() {
         return API_CLIENT.getUserName((result, status, err) => {
@@ -134,16 +209,21 @@ class ClientContainer extends React.Component
         this.setState({selected: !this.state.selected});
     }
 
-    redirectToHome() {
+    toggleFormChart() {
+        this.setState({selectedChart: !this.state.selectedChart});
+    }
+
+    //redirectToHome() {
         //To home:
         //De ce nu am acces la history aici dar am in celelalte parti?
-        let newPath = '/';
+        //let newPath = '/';
         //this.props.history.push(newPath);
         //return this.props.history.push(newPath);
-    }
+    //}
 
     //Si aici:
     //Back la pagina anterioara;
+    //Se apeleaza constant;
     reload() {
         this.setState({
             isLoaded: false
@@ -151,8 +231,29 @@ class ClientContainer extends React.Component
         this.toggleForm();
         this.fetchUserRole();
         this.fetchUserName();
-        this.fetchDevices();
+        this.fetchClientDevices();
         //this.redirectToHome();
+    }
+
+    //Celalalt:
+    // reloadChart(){
+    //     this.setState({
+    //         isLoaded: false
+    //     });
+    //     this.toggleFormChart();
+    //     this.fetchUserRole();
+    //     this.fetchUserName();
+    //     this.fetchClientDevices();
+    // }
+
+    reloadDescription(){
+        this.setState({
+            isLoaded: false
+        });
+        //this.toggleFormDescription();
+        this.fetchUserRole();
+        this.fetchUserName();
+        this.fetchClientDevices();
     }
 
     render() {
@@ -166,13 +267,38 @@ class ClientContainer extends React.Component
 
                     <br/>
 
+                    {/*Descrierea persoanei:*/}
+                    {/*reloadHandler={this.reloadDescription}*/}
                     <Row>
+                        <Col sm={{size: '5', offset: '2'}}>
+                            <ClientFormDescription reloadHandler={this.reloadDescription}/>
+                        </Col>
+                    </Row>
+
+                    <br/>
+
+                    <Row>
+                        {/*Table foloseste get!*/}
                         <Col sm={{size: '8', offset: '2'}}>
                             {this.state.isLoaded && <ClientTable tableData = {this.state.tableData}/>}
                             {this.state.errorStatus > 0 && <APIResponseErrorMessage
                                                             errorStatus={this.state.errorStatus}
                                                             error={this.state.error}
                                                         />   }
+                        </Col>
+                    </Row>
+
+                    <br/>
+
+                    {/*Este putin mai mic butonul!*/}
+                    {/*style = {{marginLeft: "9.5%"}}*/}
+                    {/*sm={{size: '8', offset: '2'}}*/}
+                    <Row>
+                        <Col>
+                            <Button color="primary"
+                                    onClick={this.toggleFormChart}
+                                    style = {buttonStyle}>
+                                See Chart Device</Button>
                         </Col>
                     </Row>
 
@@ -192,6 +318,16 @@ class ClientContainer extends React.Component
                     <br/>
 
                 </Card>
+
+                <Modal isOpen={this.state.selectedChart} toggle={this.toggleFormChart}
+                       className={this.props.className} size="lg">
+                    <ModalHeader toggle={this.toggleFormChart}
+                                 style = {{backgroundColor: "#549be2"}}>Device Chart:</ModalHeader>
+                    <ModalBody style = {{backgroundColor: "#549be2"}}>
+                        <ClientChart reloadHandler={this.reloadInsert}/>
+                    </ModalBody>
+                </Modal>
+
             </div>
         )
     }

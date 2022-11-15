@@ -63,13 +63,50 @@ function postUser(user, callback){
 
 
 
+
+function updateUser(user, callback){
+    let request = new Request(HOST.backend_api + endpoint.user + "/updateUser", {
+        method: 'POST',
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+    });
+
+    console.log("URL: " + request.url);
+    RestApiClient.performRequest(request, callback);
+}
+
+
+
+
+function deleteUser(user, callback){
+    let request = new Request(HOST.backend_api + endpoint.user + "/deleteUser", {
+        method: 'POST',
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+    });
+
+    console.log("URL: " + request.url);
+    RestApiClient.performRequest(request, callback);
+}
+
+
+
+
 //Export functii;
 //Functii ca in service;
 export {
     getUsers,
     getUserRole,
     getUserById,
-    postUser
+    postUser,
+    updateUser,
+    deleteUser,
 };
 
 

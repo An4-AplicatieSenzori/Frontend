@@ -10,7 +10,7 @@ import { FormGroup, Input, Label} from 'reactstrap';
 
 
 //Componenta react:
-class UserForm extends React.Component {
+class UserFormInsert extends React.Component {
 
     //Constructor props:
     constructor(props) {
@@ -133,6 +133,7 @@ class UserForm extends React.Component {
 
 
     //Inserari successful!
+    //Deci ca si params, aici dai user!
     registerUser(user) {
         return API_USERS.postUser(user, (result, status, error) => {
             //Te uiti la statusul returnat!
@@ -156,6 +157,7 @@ class UserForm extends React.Component {
 
 
     //Cand dai submit, salvezi valorile;
+    //Asta este de la buton:
     handleSubmit() {
         let user = {
             name: this.state.formControls.name.value,
@@ -286,7 +288,7 @@ class UserForm extends React.Component {
 
 
 //Export!
-export default UserForm;
+export default UserFormInsert;
 
 /*
 <!-- Buton submit: -->

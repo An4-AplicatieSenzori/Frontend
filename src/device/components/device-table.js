@@ -18,6 +18,10 @@ const columns = [
     {
         Header: 'HourlyConsumption',
         accessor: 'hourlyConsumption',
+    },
+    {
+        Header: 'UserName',
+        accessor: 'userName',
     }
 ];
 

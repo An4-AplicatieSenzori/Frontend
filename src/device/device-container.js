@@ -10,7 +10,9 @@ import {
     ModalHeader,
     Row
 } from 'reactstrap';
-import DeviceForm from "./components/device-form";
+import DeviceFormInsert from "./components/device-form-insert";
+import DeviceFormUpdate from "./components/device-form-update";
+import DeviceFormDelete from "./components/device-form-delete";
 import * as API_DEVICES from "./api/device-api"
 import DeviceTable from "./components/device-table";
 import { withRouter } from "react-router-dom";
@@ -32,10 +34,16 @@ class DeviceContainer extends React.Component
 {
     constructor(props) {
         super(props);
-        this.toggleForm = this.toggleForm.bind(this);
-        this.reload = this.reload.bind(this);
+        this.toggleFormInsert = this.toggleFormInsert.bind(this);
+        this.toggleFormUpdate = this.toggleFormUpdate.bind(this);
+        this.toggleFormDelete = this.toggleFormDelete.bind(this);
+        this.reloadInsert = this.reloadInsert.bind(this);
+        this.reloadDelete = this.reloadDelete.bind(this);
+        this.reloadUpdate = this.reloadUpdate.bind(this);
         this.state = {
-            selected: false,
+            selectedInsert: false,
+            selectedUpdate: false,
+            selectedDelete: false,
             collapseForm: false,
             tableData: [],
             isLoaded: false,
@@ -102,15 +110,41 @@ class DeviceContainer extends React.Component
     }
 
 
-    toggleForm() {
-        this.setState({selected: !this.state.selected});
+    toggleFormInsert() {
+        this.setState({selectedInsert: !this.state.selectedInsert});
     }
 
-    reload() {
+    toggleFormUpdate() {
+        this.setState({selectedUpdate: !this.state.selectedUpdate});
+    }
+
+    toggleFormDelete() {
+        this.setState({selectedDelete: !this.state.selectedDelete});
+    }
+
+    reloadInsert() {
         this.setState({
             isLoaded: false
         });
-        this.toggleForm();
+        this.toggleFormInsert();
+        this.fetchUserRole();
+        this.fetchDevices();
+    }
+
+    reloadUpdate() {
+        this.setState({
+            isLoaded: false
+        });
+        this.toggleFormUpdate();
+        this.fetchUserRole();
+        this.fetchDevices();
+    }
+
+    reloadDelete() {
+        this.setState({
+            isLoaded: false
+        });
+        this.toggleFormDelete();
         this.fetchUserRole();
         this.fetchDevices();
     }
@@ -126,15 +160,15 @@ class DeviceContainer extends React.Component
                     <br/>
                     <Row style = {{marginLeft: "9.5%"}}>
                         <Col sm={{size: '0', offset: '1'}}>
-                            <Button color="primary" onClick={this.toggleForm}>Add Device</Button>
+                            <Button color="primary" onClick={this.toggleFormInsert}>Add Device</Button>
                         </Col>
 
                         <Col sm={{size: '0', offset: '1'}}>
-                            <Button color="primary" onClick={this.toggleForm}>Update Device</Button>
+                            <Button color="primary" onClick={this.toggleFormUpdate}>Update Device</Button>
                         </Col>
 
                         <Col sm={{size: '0', offset: '1'}}>
-                            <Button color="primary" onClick={this.toggleForm}>Delete Device</Button>
+                            <Button color="primary" onClick={this.toggleFormDelete}>Delete Device</Button>
                         </Col>
                     </Row>
                     <br/>
@@ -150,12 +184,30 @@ class DeviceContainer extends React.Component
                     </Row>
                 </Card>
 
-                <Modal isOpen={this.state.selected} toggle={this.toggleForm}
+                <Modal isOpen={this.state.selectedInsert} toggle={this.toggleFormInsert}
                        className={this.props.className} size="lg">
-                    <ModalHeader toggle={this.toggleForm}
+                    <ModalHeader toggle={this.toggleFormInsert}
                                  style = {{backgroundColor: "#549be2"}}> Add Device:</ModalHeader>
                     <ModalBody style = {{backgroundColor: "#549be2"}}>
-                        <DeviceForm reloadHandler={this.reload}/>
+                        <DeviceFormInsert reloadHandler={this.reloadInsert}/>
+                    </ModalBody>
+                </Modal>
+
+                <Modal isOpen={this.state.selectedUpdate} toggle={this.toggleFormUpdate}
+                       className={this.props.className} size="lg">
+                    <ModalHeader toggle={this.toggleFormUpdate}
+                                 style = {{backgroundColor: "#549be2"}}> Update Device:</ModalHeader>
+                    <ModalBody style = {{backgroundColor: "#549be2"}}>
+                        <DeviceFormUpdate reloadHandler={this.reloadUpdate}/>
+                    </ModalBody>
+                </Modal>
+
+                <Modal isOpen={this.state.selectedDelete} toggle={this.toggleFormDelete}
+                       className={this.props.className} size="lg">
+                    <ModalHeader toggle={this.toggleFormDelete}
+                                 style = {{backgroundColor: "#549be2"}}> Delete Device:</ModalHeader>
+                    <ModalBody style = {{backgroundColor: "#549be2"}}>
+                        <DeviceFormDelete reloadHandler={this.reloadDelete}/>
                     </ModalBody>
                 </Modal>
             </div>

@@ -6,13 +6,14 @@ import APIResponseErrorMessage from "../../commons/errorhandling/api-response-er
 import {Col, Row} from "reactstrap";
 import { FormGroup, Input, Label} from 'reactstrap';
 
-class DeviceForm extends React.Component
+class DeviceFormInsert extends React.Component
 {
     constructor(props) {
         super(props);
         this.toggleForm = this.toggleForm.bind(this);
         this.reloadHandler = this.props.reloadHandler;
 
+        //State cu campuri!!!
         this.state = {
             errorStatus: 0,
             error: null,
@@ -59,6 +60,17 @@ class DeviceForm extends React.Component
                         hourlyConsumptionValidator: true
                     }
                 },
+                userName: {
+                    value: '',
+                    placeholder: 'User Name',
+                    valid: false,
+                    touched: false,
+                    //validationRules: {
+                        //isRequired: true, //Nu stiu daca trebe neaparat user, bine incerc fara;
+                        //minLength: 3,
+                        //hourlyConsumptionValidator: true
+                    //}
+                },
             }
         };
 
@@ -93,6 +105,7 @@ class DeviceForm extends React.Component
         });
     };
 
+    //Corect, mai trebuie doar luat si clientul;
     registerDevice(device) {
         return API_DEVICES.postDevice(device, (result, status, error) => {
             if (result !== null && (status === 200 || status === 201)) {
@@ -112,7 +125,8 @@ class DeviceForm extends React.Component
             title: this.state.formControls.title.value,
             description: this.state.formControls.description.value,
             address: this.state.formControls.address.value,
-            hourlyConsumption: this.state.formControls.hourlyConsumption.value
+            hourlyConsumption: this.state.formControls.hourlyConsumption.value,
+            userName: this.state.formControls.userName.value,
         };
 
         console.log(device);
@@ -175,6 +189,19 @@ class DeviceForm extends React.Component
                         <div className={"error-message row"}> * You must enter correct values! </div>}
                 </FormGroup>
 
+                <FormGroup id='userName' style = {{backgroundColor: "#549be2"}}>
+                    <Label for='userName'> User Name: </Label>
+                    <Input name='userName' id='userName' placeholder={this.state.formControls.userName.placeholder}
+                           onChange={this.handleChange}
+                           defaultValue={this.state.formControls.userName.value}
+                           touched={this.state.formControls.userName.touched? 1 : 0}
+                           valid={this.state.formControls.userName.valid}
+                           // required
+                    />
+                    {/*{this.state.formControls.hourlyConsumption.touched && !this.state.formControls.hourlyConsumption.valid &&*/}
+                    {/*    <div className={"error-message row"}> * You must enter correct values! </div>}*/}
+                </FormGroup>
+
                     <Row>
                         <Col sm={{size: '4', offset: 5}}>
                             <Button type={"submit"} disabled={!this.state.formIsValid} onClick={this.handleSubmit}
@@ -190,7 +217,7 @@ class DeviceForm extends React.Component
     }
 }
 
-export default DeviceForm;
+export default DeviceFormInsert;
 //type = "number" = int;
 //type = "number" = float;
 //(mai trebuie si step = "0.1"!)

@@ -1,6 +1,7 @@
 import React from "react";
 import Table from "../../commons/tables/table";
 
+//Fara user name! Se ia direct!
 const columns = [
     {
         Header: 'Title',

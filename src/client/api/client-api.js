@@ -14,13 +14,31 @@ const endpoint = {
 };
 
 
-function getDevices(callback) {
-    let request = new Request(HOST.backend_api + endpoint.clientDevice, {
+//La user id nu trebuie?
+//La get doar cu id putem sa trimitem mai departe la backend ceva;
+//+ "/";
+//Mai complicat decat credeam;
+function getClientDevices(callback) {
+    //let request = new Request(HOST.backend_api + endpoint.clientDevice + "/clientDevices" + "/" + params.id, {
+    let request = new Request(HOST.backend_api + endpoint.clientDevice + "/clientDevices", {
+        method: 'GET',
+    });
+
+    console.log(request.url); //400!!!
+    RestApiClient.performRequest(request, callback);
+}
+
+
+function getClientData(callback) {
+    let request = new Request(HOST.backend_api + endpoint.clientUser + "/clientData", {
         method: 'GET',
     });
 
     console.log(request.url);
     RestApiClient.performRequest(request, callback);
+
+    // console.log("Nume: " + this.clientCurent.name + " ,Email: " + this.clientCurent.email +
+    //     ",Age: " + this.clientCurent.age + " ,Address: " + this.clientCurent.address);
 }
 
 
@@ -32,6 +50,17 @@ function getUserRole(callback){
     console.log(request.url);
     RestApiClient.performRequest(request, callback);
 }
+
+
+/*
+function getUserId(callback){
+    let request = new Request(HOST.backend_api + endpoint.clientUser + "/userId", {
+        method: 'GET',
+    });
+    console.log(request.url);
+    RestApiClient.performRequest(request, callback);
+}
+*/
 
 
 function getUserName(callback){
@@ -46,8 +75,10 @@ function getUserName(callback){
 
 export {
     getUserRole,
+    getClientData,
+    //getUserId,
     getUserName,
-    getDevices,
+    getClientDevices,
 };
 
 
