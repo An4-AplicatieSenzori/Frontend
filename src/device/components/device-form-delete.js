@@ -69,11 +69,10 @@ class DeviceFormDelete extends React.Component
     };
 
     //Corect, mai trebuie doar luat si clientul;
-    /*
     deleteDevice(device) {
-        return API_DEVICES.postDevice(device, (result, status, error) => {
+        return API_DEVICES.deleteDevice(device, (result, status, error) => {
             if (result !== null && (status === 200 || status === 201)) {
-                console.log("Successfully inserted device with id: " + result + " !");
+                console.log("Successfully deleted device with id: " + result + " !");
                 this.reloadHandler();
             } else {
                 this.setState(({
@@ -83,7 +82,6 @@ class DeviceFormDelete extends React.Component
             }
         });
     }
-    */
 
     handleSubmit() {
         let device = {
@@ -92,7 +90,7 @@ class DeviceFormDelete extends React.Component
         };
 
         console.log(device);
-        //this.deleteDevice(device);
+        this.deleteDevice(device);
     }
 
     render() {

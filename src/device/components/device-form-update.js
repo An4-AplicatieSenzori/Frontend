@@ -99,11 +99,11 @@ class DeviceFormUpdate extends React.Component
         });
     };
 
-    /*
+
     updateDevice(device) {
-        return API_DEVICES.postDevice(device, (result, status, error) => {
+        return API_DEVICES.updateDevice(device, (result, status, error) => {
             if (result !== null && (status === 200 || status === 201)) {
-                console.log("Successfully inserted device with id: " + result + " !");
+                console.log("Successfully updated device with id: " + result + " !");
                 this.reloadHandler();
             } else {
                 this.setState(({
@@ -113,7 +113,7 @@ class DeviceFormUpdate extends React.Component
             }
         });
     }
-    */
+
 
     handleSubmit() {
         let device = {
@@ -125,7 +125,7 @@ class DeviceFormUpdate extends React.Component
         };
 
         console.log(device);
-        //this.updateDevice(device);
+        this.updateDevice(device);
     }
 
     render() {
