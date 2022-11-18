@@ -10,7 +10,8 @@ import RestApiClient from "../../commons/api/rest-client";
 //Din DEVICES iau DEVICEURI USER ANUME, folosind datele sale;
 const endpoint = {
     clientUser: '/user', //Tot user, ca si admin;
-    clientDevice: '/device'
+    clientDevice: '/device',
+    deviceData: '/deviceEnergy',
 };
 
 
@@ -71,11 +72,34 @@ function getUserName(callback){
     RestApiClient.performRequest(request, callback);
 }
 
-//Nu trebuie functie pentru buton de back;
 
+
+//Trebuie pusa si bara, ca si pentru id cred!!!
+//+ "/deleteUser",
+//Stie sa puna in plus fata de url si ce ii dau cu stringify parametru;
+//NU POTI PUNE PE RANDURI DIFERITE REQUEST PENTRU CA NU IL IA CA STRING BUN!!!
+function getDeviceData(deviceTitle, callback){
+    let request = new Request(HOST.backend_api + endpoint.deviceData + "/deviceTitle/" + deviceTitle, {
+        method: 'GET',
+
+        //Stringify si pentru un STRING, sper ca merge sa transmiti asa in backend;
+        //Deci ar trebui sa mearga ca pentru int, uuid sau altele;
+
+        //NU TREBUIE STRINGIFY LA GET!!!
+        //body: JSON.stringify(deviceTitle)
+    });
+
+    console.log("URL: " + request.url);
+    RestApiClient.performRequest(request, callback);
+}
+
+
+
+//Nu trebuie functie pentru buton de back;
 export {
     getUserRole,
     getClientData,
+    getDeviceData,
     //getUserId,
     getUserName,
     getClientDevices,

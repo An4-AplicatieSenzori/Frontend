@@ -61,7 +61,8 @@ class ClientContainer extends React.Component
         this.toggleFormChart = this.toggleFormChart.bind(this);
         this.reload = this.reload.bind(this);
         this.reloadDescription = this.reloadDescription.bind(this);
-        //this.reloadChart = this.reloadChart.bind(this);
+        //Ups am comentat aici:
+        this.reloadChart = this.reloadChart.bind(this);
         this.state = {
             selected: false,
             selectedChart: false,
@@ -235,16 +236,20 @@ class ClientContainer extends React.Component
         //this.redirectToHome();
     }
 
-    //Celalalt:
-    // reloadChart(){
-    //     this.setState({
-    //         isLoaded: false
-    //     });
-    //     this.toggleFormChart();
-    //     this.fetchUserRole();
-    //     this.fetchUserName();
-    //     this.fetchClientDevices();
-    // }
+    //La fel ca mai sus:
+    //Ca si la reloadul normal!
+    reloadChart(){
+        this.setState({
+            isLoaded: false
+        });
+
+        //Nu trebuie reload, trimit gol:
+        //Nu cred ca trebuie aici!!!
+        //this.toggleFormChart();
+        this.fetchUserRole();
+        this.fetchUserName();
+        this.fetchClientDevices();
+    }
 
     reloadDescription(){
         this.setState({
@@ -319,12 +324,13 @@ class ClientContainer extends React.Component
 
                 </Card>
 
+                {/*Aici am pus chart, nu sunt multe de lucrat aici, este doar o modala:*/}
                 <Modal isOpen={this.state.selectedChart} toggle={this.toggleFormChart}
                        className={this.props.className} size="lg">
                     <ModalHeader toggle={this.toggleFormChart}
                                  style = {{backgroundColor: "#549be2"}}>Device Chart:</ModalHeader>
                     <ModalBody style = {{backgroundColor: "#549be2"}}>
-                        <ClientChart reloadHandler={this.reloadInsert}/>
+                        <ClientChart reloadHandler={this.reloadChart}/>
                     </ModalBody>
                 </Modal>
 
