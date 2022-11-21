@@ -18,28 +18,29 @@ class ClientChart extends React.Component {
     //Pentru Chart: !!!
     //Limita 5, poate daca adaugi devine mai mare;
     //CATEGORIES AND SERIES SUNT LISTE!!!
-    dataChart = {
-        options: {
-            //Titlu:
-            chart: {
-                id: 'Energy Chart'
-            },
-            xaxis: {
-                //Aici poti pune orice: (CA SI TIP!!!)
-                //O lista de ORE (De la 00:00 pana la 23:00)
-                //Asta se reprezinta pe X axis;
-                categories: []
-            }
-        },
-        series: [{
-            name: 'series-1',
-            //Pentru valorile de pe Y!
-            //Pui valorile anume;
-            //Dai o lista, se pune automat intre valorile min si max;
-            //Sunt valori intre min pus, sa zicem 0-10 si maxim, sa zicem 100-1000;
-            data: []
-        }]
-    }
+    //Voi pune in state pentru on change, nu este set altcumva:
+    // dataChart = {
+    //     options: {
+    //         //Titlu:
+    //         chart: {
+    //             id: 'Energy Chart'
+    //         },
+    //         xaxis: {
+    //             //Aici poti pune orice: (CA SI TIP!!!)
+    //             //O lista de ORE (De la 00:00 pana la 23:00)
+    //             //Asta se reprezinta pe X axis;
+    //             categories: []
+    //         }
+    //     },
+    //     series: [{
+    //         name: 'series-1',
+    //         //Pentru valorile de pe Y!
+    //         //Pui valorile anume;
+    //         //Dai o lista, se pune automat intre valorile min si max;
+    //         //Sunt valori intre min pus, sa zicem 0-10 si maxim, sa zicem 100-1000;
+    //         data: []
+    //     }]
+    // }
 
     //Pentru date picker:
     //const [value, setValue] = useState(new Date());
@@ -49,7 +50,7 @@ class ClientChart extends React.Component {
         //Ramane toggle + reload:
         this.toggleForm = this.toggleForm.bind(this);
         //Este deja:
-        this.reloadHandler = this.props.reloadHandler;
+        //this.reloadHandler = this.props.reloadHandler;
 
         //Unique title pentru gasire a face device:
         //Sa aiba 36 de caractere!
@@ -71,16 +72,40 @@ class ClientChart extends React.Component {
                         titleValidator: true
                     }
                 },
+            },
+            dataChart : {
+                options: {
+                    //Titlu:
+                    chart: {
+                        id: 'Energy Chart'
+                    },
+                    xaxis: {
+                        //Aici poti pune orice: (CA SI TIP!!!)
+                        //O lista de ORE (De la 00:00 pana la 23:00)
+                        //Asta se reprezinta pe X axis;
+                        categories: []
+                    }
+                },
+                series: [{
+                    name: 'series-1',
+                    //Pentru valorile de pe Y!
+                    //Pui valorile anume;
+                    //Dai o lista, se pune automat intre valorile min si max;
+                    //Sunt valori intre min pus, sa zicem 0-10 si maxim, sa zicem 100-1000;
+                    data: []
+                }]
             }
         };
 
         //Change + Submit:
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChangeChart = this.handleChangeChart.bind(this);
+        this.handleChangeChartDate = this.handleChangeChartDate.bind(this);
+        this.handleChangeChartValues = this.handleChangeChartValues.bind(this);
     }
 
     //La fel:
+    //Se state definit aici"
     toggleForm() {
         this.setState({collapseForm: !this.state.collapseForm});
     }
@@ -131,16 +156,23 @@ class ClientChart extends React.Component {
 
         //console.log(device);
         //this.getDeviceData(this.device.title); //Nu este in state, not in this!
+        //Aici apeleaza datele;
         this.getDeviceData(device.title); //In title direct, nu mai trebuie accesat alt camp!!!
     }
 
 
 
-    handleChangeChart(date) {
+    handleChangeChartDate(date) {
         this.setState({
             startDate: date
             //Care este acest date? Cel nou? Nu cel initial;
-        })
+        });
+    }
+
+    handleChangeChartValues(values) {
+        this.setState({
+            dataChart: values
+        });
     }
 
 
@@ -157,18 +189,117 @@ class ClientChart extends React.Component {
                 //Pentru testare result:
                 console.log(result);
 
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //Filtrarea rezultatului final:
+                let hoursChart = [];
+                let valuesChart = [];
+
+                //Aici am folosit data aleasa, pentru filtrare:
+                //Pentru un device, toate intrarile lui, din toate zilele:
+                //Prima data trebuie setat result cu filtrarea anume;
+                //Trebuie tip sau nume?
+                result.forEach(deviceDay =>{
+                    //Date curent luat din startDate, cu "YEAR(An)-MONTH(+1)(Luna)-DATE(Ziua)"; Luna este in spate cu 1,
+                    //trebuie convertita;
+
+                    //Selectat din front end ce data am ales:
+                    let dateCurrentFrontEnd = this.state.startDate.getFullYear() + '-' +
+                        (this.state.startDate.getMonth() + 1) + '-' + this.state.startDate.getDate();
+
+                    console.log("Date FrontEnd: " + dateCurrentFrontEnd);
+
+                    //Selectat din BD, cu ce am adus din requestul de mai sus, ce este ca data pentru fiecare rezultat:
+                    //Substringul ce contine data, cu 10 chars in data, de la index 0;
+                    //substring(0, 9); substring(0, 10); substr(0, 10); Nu merge substring;
+                    //let dateCurrentBD = deviceDay.date.substring(0, 9); //let dateCurrentBD = deviceDay.date.substr(0, 10);
+                    //let dateCurrentBD = deviceDay.day_plus_hour_selected.substr(0, 10);
+                    let dateCurrentBD = deviceDay.dayPlusHourSelected.substr(0, 10); //Tot nu apare...;
+
+                    console.log("Date BD: " + dateCurrentBD);
+
+                    //Daca acele 2 date sunt egale, se pastreaza in lista de mai sus:
+                    if (dateCurrentFrontEnd === dateCurrentBD) {
+                        //Aceste 2 liste sunt cele puse in CHART, si se dau push
+                        //la elemente pe rand dupa ce se gasesc potrivite din result;
+
+                        //Date adica si hour;
+                        hoursChart.push(deviceDay.dayPlusHourSelected);
+                        //hoursChart.push(deviceDay.date);
+                        valuesChart.push(deviceDay.value);
+                        //2 Liste ce contin datele noului chart;
+                    }
+                });
+
+                //Aici am folosit chart-ul, pentru a introduce datele noi:
+                //Dupa care trebuie setat un nou CHART!!! Cu datele bune!
+                //Definite mai sus, si date aici mai departe;
+                //Acelasi nr de ore si de values, 1 pentru fiecare (Deci patratic)
+                const newDataChart = {
+                    options: {
+                        chart: {
+                            id: 'Energy Chart'
+                        },
+                        xaxis: {
+                            //Orele gasite:
+                            categories: hoursChart
+                        }
+                    },
+                    series: [{
+                        name: 'series-1',
+                        data: valuesChart
+                    }]
+                }
+
+                //In loc de set: Mai jos, on change!!!
+                //setData(newDataChart);
+                //Acum ca sunt noile date bune, putem da set la ele,
+                //apeland functia de schimbare;
+
+                //Pentru verificare data locala:
+                console.log("Hours before: " + newDataChart.series.data);
+                console.log("Values before: " + newDataChart.options.xaxis.categories);
+
+                this.handleChangeChartValues(newDataChart);
+
+                //Pentru verificare daca a pus datele bine:
+                console.log("Hours after: " + this.state.dataChart.series.data);
+                console.log("Values after: " + this.state.dataChart.options.xaxis.categories);
+
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
                 //Device management: (Filter + Order):
                 //Da eroare reloadHander;
-                this.reloadHandler();
+                //this.reloadHandler();
             } else {
                 this.setState(({
                     errorStatus: status,
                     error: error
                 }));
+
+                //Un alt chart, unde pun mesaj ca nu exista:
+                const newDataChart = {
+                    options: {
+                        chart: {
+                            id: 'Energy Chart'
+                        },
+                        xaxis: {
+                            //Orele gasite:
+                            //categories: hoursChart
+                            labelString: 'No Data'
+                        }
+                    },
+                    series: [{
+                        name: 'series-1',
+                        //data: valuesChart
+                        labelString: 'No Data'
+                    }]
+                }
+
+                //Set la datele goale;
+                this.handleChangeChartValues(newDataChart);
             }
         });
     }
-
 
 
     // onChange = (e, e2) => {
@@ -234,7 +365,7 @@ class ClientChart extends React.Component {
                             //Ce dai initial, si on change se schimba;
                             value = { this.state.startDate }
                             //On change pentru cand vrei noua data; Are sens:
-                            onChange = { this.handleChangeChart }
+                            onChange = { this.handleChangeChartDate }
                             // Ca la input: ca si la hover peste componenta:
                             name = "startDate"
                             //Year, Luna, Zi, deci trebuie si ora stocata separat;
@@ -253,9 +384,13 @@ class ClientChart extends React.Component {
                                marginLeft: "1.8%"}}
                            //backgroundColor: "#000000"}
                            //Options: Pentru X Axis;
-                           options={this.dataChart.options}
+                           options={this.state.dataChart.options}
                            //Series:  Pentru Y Axis;
-                           series={this.dataChart.series}
+                           series={this.state.dataChart.series}
+                           //Pentru sa se schimba:
+                           //onChange = { this.handleChangeChartValues }
+                           //Se face automat cand primesti result, adica de la submit!!!
+                           //Submit face get in handleSubmit!
                            //Un type anue:
                            type="bar" width={400} height={300} />
                 </Row>

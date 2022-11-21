@@ -330,7 +330,9 @@ class ClientContainer extends React.Component
                     <ModalHeader toggle={this.toggleFormChart}
                                  style = {{backgroundColor: "#549be2"}}>Device Chart:</ModalHeader>
                     <ModalBody style = {{backgroundColor: "#549be2"}}>
-                        <ClientChart reloadHandler={this.reloadChart}/>
+                        {/*Nu mai trebuie handler, nu trebuie facut nimic cu datele din spate ca inainte!!!*/}
+                        {/*reloadHandler={this.reloadChart}*/}
+                        <ClientChart/>
                     </ModalBody>
                 </Modal>
 
