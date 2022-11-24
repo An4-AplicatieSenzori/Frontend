@@ -33,7 +33,7 @@ class ClientChart extends React.Component {
     //         }
     //     },
     //     series: [{
-    //         name: 'series-1',
+    //         name: 'name',
     //         //Pentru valorile de pe Y!
     //         //Pui valorile anume;
     //         //Dai o lista, se pune automat intre valorile min si max;
@@ -87,7 +87,7 @@ class ClientChart extends React.Component {
                     }
                 },
                 series: [{
-                    name: 'series-1',
+                    name: 'Values',
                     //Pentru valorile de pe Y!
                     //Pui valorile anume;
                     //Dai o lista, se pune automat intre valorile min si max;
@@ -245,7 +245,7 @@ class ClientChart extends React.Component {
                         }
                     },
                     series: [{
-                        name: 'series-1',
+                        name: 'Values',
                         data: valuesChart
                     }]
                 }
@@ -289,7 +289,7 @@ class ClientChart extends React.Component {
                         }
                     },
                     series: [{
-                        name: 'series-1',
+                        name: 'Values',
                         //data: valuesChart
                         labelString: 'No Data'
                     }]

@@ -1,0 +1,10 @@
+version: '3'
+# Tot versiunea 3;
+
+services:
+
+  react:
+    image: orsantudorfrontend.azurecr.io/orsantudorfrontendimage:73
+    ports:
+       #- "8080:8080"
+       - "80:80"
