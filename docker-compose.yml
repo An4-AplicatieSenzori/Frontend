@@ -1,10 +1,11 @@
 version: '3'
 # Tot versiunea 3;
+# Test1;
 
 services:
 
   react:
-    image: orsantudorfrontend.azurecr.io/orsantudorfrontendimage:73
+    image: orsantudorfrontend.azurecr.io/orsantudorfrontend:102 # Am pus fara image a 2-a oara ca nu era clar!!!
     ports:
        #- "8080:8080"
        - "80:80"
