@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 //import ClientForm from "./components/client-form";
 import ClientChart from "./components/client-chart";
+import ClientWebSocket from "./components/client-websocket"
 import ClientDescription from "./components/client-description";
 import * as API_CLIENT from "./api/client-api"
 import ClientTable from "./components/client-table";
@@ -294,6 +295,12 @@ class ClientContainer extends React.Component
                     </Row>
 
                     <br/>
+                    <br/>
+
+                    <ClientWebSocket/>
+
+                    <br/>
+                    <br/>
 
                     {/*Este putin mai mic butonul!*/}
                     {/*style = {{marginLeft: "9.5%"}}*/}
@@ -345,6 +352,9 @@ class ClientContainer extends React.Component
 export default withRouter(ClientContainer);
 
 /*
+
+<ClientWebSocket>
+                    </ClientWebSocket>
 
 Sunt functii care nu dau returnm void, care seteaza lucruri;
 Sunt functii care dau return, si schimba flow;
