@@ -17,6 +17,7 @@ import * as API_DEVICES from "./api/device-api"
 import DeviceTable from "./components/device-table";
 import { withRouter } from "react-router-dom";
 import * as API_CLIENT from "../client/api/client-api";
+import UserCookie from "../userCookie";
 
 
 const managementTitle = {
@@ -50,6 +51,8 @@ class DeviceContainer extends React.Component
             errorStatus: 0,
             error: null
         };
+
+        this.cookieRef = React.createRef();
     }
 
     componentDidMount() {
@@ -77,36 +80,40 @@ class DeviceContainer extends React.Component
     //Same function:
     //Toata lumea are acces doar la pagina lui:
     fetchUserRole() {
-        return API_DEVICES.getUserRole((result, status, err) => {
-            if (result !== null && status === 200) {
-                //Home:
-                if(result === "noRole")
-                {
-                    let newPath = '/';
-                    this.props.history.push(newPath);
-                }
-                //Admin:
-                else if(result === "admin")
-                {
-                    //let newPath = '/admin';
-                    //this.props.history.push(newPath);
-                }
-                //Client:
-                else if(result === "client")
-                {
-                    //Este doar o pagina oricum:
-                    //Asa oricum te duce la pagina aia;
-                    let newPath = '/client';
-                    this.props.history.push(newPath);
-                }
+        //return API_DEVICES.getUserRole((result, status, err) => {
+        //return((result = this.cookieRef.current.state.role) => {
+
+        let result = this.cookieRef.current.state.role;
+        //let result = this.cookieRef.current.props.cookies.get("role");
+        if (result !== null) { //&& status === 200) {
+            //Home:
+            if(result === "noRole")
+            {
+                let newPath = '/';
+                this.props.history.push(newPath);
             }
-            else {
-                this.setState(({
-                    errorStatus: status,
-                    error: err
-                }));
+            //Admin:
+            else if(result === "admin")
+            {
+                //let newPath = '/admin';
+                //this.props.history.push(newPath);
             }
-        });
+            //Client:
+            else if(result === "client")
+            {
+                //Este doar o pagina oricum:
+                //Asa oricum te duce la pagina aia;
+                let newPath = '/client';
+                this.props.history.push(newPath);
+            }
+        }
+        else {
+            //this.setState(({
+            //    errorStatus: status,
+            //    error: err
+            //}));
+        }
+        //});
     }
 
 
@@ -210,6 +217,9 @@ class DeviceContainer extends React.Component
                         <DeviceFormDelete reloadHandler={this.reloadDelete}/>
                     </ModalBody>
                 </Modal>
+
+                <UserCookie ref={this.cookieRef} />
+
             </div>
         )
     }

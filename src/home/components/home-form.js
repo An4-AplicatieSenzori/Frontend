@@ -7,7 +7,12 @@ import {Col, Row} from "reactstrap";
 import { FormGroup, Input, Label} from 'reactstrap';
 //import { useNavigate } from "react-router-dom"; //"^4.3.1", //Varianta 6 mai veche!
 import { withRouter } from "react-router-dom";
+import UserCookie from "../../userCookie";
 //let navigate = useNavigate();
+
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
+
 
 //Despre nou form:
 class HomeForm extends React.Component
@@ -22,6 +27,10 @@ class HomeForm extends React.Component
         setTimeout(()=>push(to), 1000);
     }*/
 
+    //static propTypes = {
+    //    cookies: instanceOf(Cookies).isRequired
+    //};
+
     constructor(props) {
         super(props);
         this.toggleForm = this.toggleForm.bind(this);
@@ -31,6 +40,7 @@ class HomeForm extends React.Component
 
         //Ce avem in obj;
         this.state = {
+            result: null,
             errorStatus: 0,
             error: null,
             formIsValid: false,
@@ -61,6 +71,7 @@ class HomeForm extends React.Component
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.cookieRef = React.createRef();
     }
 
     //Se state:
@@ -98,17 +109,40 @@ class HomeForm extends React.Component
         return API_HOME.userRoleRedirect(homeUser, (result, status, error) => {
 
             //console.log("Result type: " + typeof result);
-
+            //Primim ROLUL aici, tot ce ne intereseaza; In Backend este stocat userul curent;
+            //Am vrea sa avem o metoda de a clasifica userii din frontend, sa avem si id-ul aici;
+            //Dupa ce avem id-ul se poate cere userul curent mai usor; Sau schimba in Backend; ()
             if (result !== null && (status === 200 || status === 201)) {
                 //Gasim un user cu datele putine date, si returnam id-ul din backend;
                 //console.log("The user with id: " + result + " was found!");
-                console.log("The user with role " + result + " was found!")
+                //console.log("The user with role " + result + " was found!")
                 this.reloadHandler(); //Mov?
+
+
+
+                //Pentru cookie: Direct in cealalta clasa; Fac set de acolo:
+                //const { cookies } = this.props;
+                // cookies.set("id", result.id, { path: "/" });
+                // cookies.set("name", result.name, { path: "/" });
+                // cookies.set("address", result.address, { path: "/" });
+                // cookies.set("age", result.age, { path: "/" });
+                // cookies.set("email", result.email, { path: "/" });
+                // cookies.set("password", result.password, { path: "/" });
+                // cookies.set("role", result.role, { path: "/" });
+                //this.setState({ example: cookies.get("example") });
+                //UserCookie.handleUserChange(result);
+                //UserCookie.handleUserChange.bind(result);
+                //this.setState({result: result});
+
+                //Referinta la metoda: Asa se apeleaza si pune in cookies;
+                //this.cookieRef.current.id;
+                this.cookieRef.current.handleUserChange(result);
+
 
                 //Redirect in functie de role!!!
                 //Consider ca result este un String!!! Dar nu este?
                 //IL VEDE CA STRING AICI!!!
-                if(result === 'admin') //String(result) //JSON.stringify(result)
+                if(result.role === 'admin') //String(result) //JSON.stringify(result)
                 {
                     //Aici se poate da redirect, este fara eroare in acest caz!!!
                     let newPath = '/admin';
@@ -116,7 +150,7 @@ class HomeForm extends React.Component
                     this.props.history.push(newPath);
                     //setTimeout(1000);
                 }
-                else if(result === 'client')
+                else if(result.role === 'client')
                 {
                     //Aici se poate da redirect, este fara eroare in acest caz!!!
                     let newPath = '/client';
@@ -125,7 +159,7 @@ class HomeForm extends React.Component
                     //Client is not valid JSON;
                     //setTimeout(1000);
                 }
-                else if(result === 'noRole')
+                else if(result.role === 'noRole')
                 {
                     //console.log("There is no role!");
                 }
@@ -140,7 +174,9 @@ class HomeForm extends React.Component
 
     //CE SE INTAMPLA CAND APESI PE BUTON!!!
     //Creem un obiect, si il trimitem la backend!!!
-    handleSubmit() {
+    handleSubmit()
+    {
+        //Datele unui login;
         let homeUser = {
             name: this.state.formControls.name.value,
             password: this.state.formControls.password.value
@@ -149,12 +185,20 @@ class HomeForm extends React.Component
         console.log(homeUser);
         //console.log("Result type: " + typeof callback);
 
-        this.userRoleData(homeUser); //Doar 2 din datele userului,
+        this.userRoleData(homeUser);
+        //Doar 2 din datele userului,
         //in rest il cautam;
     }
 
     render() {
+
+        //const { cookies } = this.props;
+        //const { userId } = cookies.get("id");
+        //{userId && <p>Test: {userId}</p>}
+        //{const { cookies } = this.props && <p>Test: {cookies.get("id")}</p>}
+
         return (
+
             <div>
 
                 <FormGroup id='name' style = {{backgroundColor: "#ffc824"}}>
@@ -200,6 +244,12 @@ class HomeForm extends React.Component
                     this.state.errorStatus > 0 &&
                     <APIResponseErrorMessage errorStatus={this.state.errorStatus} error={this.state.error}/>
                 }
+
+                {/*Nefolosit:*/}
+                {/*<UserCookie></UserCookie>*/}
+                {/*<UserCookie value={this.state.result}></UserCookie>*/}
+                <UserCookie ref={this.cookieRef} />
+
             </div>
         ) ;
     }
@@ -207,7 +257,7 @@ class HomeForm extends React.Component
 
 //this.HandleSubmit?
 //export default HomeForm;
-export default withRouter(HomeForm);
+export default withRouter(HomeForm); //withCookies(withRouter(HomeForm));
 
 
 

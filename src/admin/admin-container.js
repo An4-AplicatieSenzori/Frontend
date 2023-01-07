@@ -15,6 +15,7 @@ import * as API_ADMIN from "./api/admin-api"
 //import AdminTable from "./components/admin-table";
 import { withRouter } from "react-router-dom";
 import * as API_CLIENT from "../client/api/client-api";
+import UserCookie from "../userCookie";
 
 
 const managementTitle = {
@@ -52,69 +53,86 @@ class AdminContainer extends React.Component
             error: null,
             userName: "userNameAdmin",
         };
+
+        this.cookieRef = React.createRef();
     }
 
     componentDidMount() {
         //this.redirectToHome();
         this.fetchUserRole();
         this.fetchUserName();
+        this.cookieRef = React.createRef();
     }
 
     fetchUserRole() {
-        return API_ADMIN.getUserRole((result, status, err) => {
-            if (result !== null && status === 200) {
-                //Home:
-                if(result === "noRole")
-                {
-                    let newPath = '/';
-                    this.props.history.push(newPath);
-                }
-                //Admin:
-                else if(result === "admin")
-                {
-                    //let newPath = '/admin';
-                    //this.props.history.push(newPath);
-                }
-                //Client:
-                else if(result === "client")
-                {
-                    //Este doar o pagina oricum:
-                    let newPath = '/client';
-                    this.props.history.push(newPath);
-                }
+
+        //console.log("Test admin container: " + this.cookieRef.current.state.role);
+
+        //AICI SE VERIFICA NOUL ROL: FARA BACKEND, DIRECT DIN FRONTEND:
+        //return API_ADMIN.getUserRole((result, status, err) => {
+        //let result = this.cookieRef.current.state.role;
+        //return((result) => {
+
+        let result = this.cookieRef.current.state.role;
+        //let result = this.cookieRef.current.props.cookies.get("role");
+        if (result !== null) {//status === 200) {
+            //Home:
+            if(result === "noRole")
+            {
+                let newPath = '/';
+                this.props.history.push(newPath);
             }
-            else {
-                this.setState(({
-                    errorStatus: status,
-                    error: err
-                }));
+            //Admin:
+            else if(result === "admin")
+            {
+                //let newPath = '/admin';
+                //this.props.history.push(newPath);
             }
-        });
+            //Client:
+            else if(result === "client")
+            {
+                //Este doar o pagina oricum:
+                let newPath = '/client';
+                this.props.history.push(newPath);
+            }
+        }
+        else {
+            //this.setState(({
+            //    errorStatus: status,
+            //    error: err
+            //}));
+        }
+        //});
+
     }
 
 
     fetchUserName() {
-        return API_ADMIN.getUserName((result, status, err) => {
-            if (result !== null && status === 200) {
+        //return API_ADMIN.getUserName((result, status, err) => {
+        //return((result) => {
 
-                //NU MERGE!!!
-                //this.userNameAdmin = result;
-                //this.userNameAdmin = "Altceva";
+        let result = this.cookieRef.current.state.name
+        //let result = this.cookieRef.current.props.cookies.get("name");
+        if (result !== null) { //&& status === 200) {
 
-                //MERGE ASTA!!!
-                //2 sau 1 paranteza:
-                this.setState({
-                    userName: result,
-                });
+            //NU MERGE!!!
+            //this.userNameAdmin = result;
+            //this.userNameAdmin = "Altceva";
 
-            }
-            else {
-                this.setState(({
-                    errorStatus: status,
-                    error: err
-                }));
-            }
-        });
+            //MERGE ASTA!!!
+            //2 sau 1 paranteza:
+            this.setState({
+                userName: result,
+            });
+
+        }
+        else {
+            //this.setState(({
+            //    errorStatus: status,
+            //    error: err
+            //}));
+        }
+        //});
     }
 
 
@@ -168,6 +186,8 @@ class AdminContainer extends React.Component
                     <br/>
 
                 </Card>
+
+                <UserCookie ref={this.cookieRef} />
             </div>
         )
     }

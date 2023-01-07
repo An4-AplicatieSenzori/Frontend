@@ -20,6 +20,7 @@ import * as API_USERS from "../user/api/user-api";
 import { withRouter } from "react-router-dom";
 import UserFormInsert from "../user/components/user-form-insert";
 import ClientFormDescription from "./components/client-description";
+import UserCookie from "../userCookie";
 
 
 
@@ -76,6 +77,8 @@ class ClientContainer extends React.Component
         //this.params = {
         //    id: null,
         //}
+
+        this.cookieRef = React.createRef();
     }
 
     //Cum faci in ordine?
@@ -88,8 +91,52 @@ class ClientContainer extends React.Component
         //Complicat:
         //this.fetchUserId();
         this.fetchUserName();
-        this.fetchClientDevices(); //(this.params);
+        this.fetchClientDevices(this.cookieRef.current.state.id); //(this.params);
     }
+
+
+    //return API_CLIENT.getUserRole((result, status, err) => {
+    //return((result = this.cookieRef.current.state.role) => {
+    fetchUserRole()
+    {
+        //let result = this.cookieRef.current.state.role;
+
+        let result = this.cookieRef.current.state.role;
+        //let result = this.cookieRef.current.props.cookies.get("role");
+
+        console.log("Testul 1: " + result);
+        console.log("Testul 2: " + this.cookieRef.current.state.address);
+        if (result !== null) { //&& status === 200) {
+            //Home:
+            if(result === "noRole")
+            {
+                let newPath = '/';
+                this.props.history.push(newPath);
+            }
+            //Admin:
+            else if(result === "admin")
+            {
+                let newPath = '/admin';
+                this.props.history.push(newPath);
+            }
+            //Client:
+            else if(result === "client")
+            {
+                //Este doar o pagina oricum:
+                let newPath = '/client';
+                this.props.history.push(newPath);
+            }
+        }
+        //else {
+        //this.setState(({
+        //    errorStatus: status,
+        //    error: err
+        //}));
+        //}
+        //});
+    }
+
+
 
     //Pentru admin, trebuie alta functie pentru client:
     //fetchDevices() {
@@ -97,7 +144,7 @@ class ClientContainer extends React.Component
     //Params = Parametrii transmisi catre backend prin api;
     //Callback = Ce returneaza, result, status si daca exista eroare;
     //Reload la tabel;
-    fetchClientDevices() //(params)
+    fetchClientDevices(userId) //(params)
     {
         //Ar trebui sa fie ordinea buna si sa nu mai puna null acum!!!
         //NU MERGE ORDINEA!!!
@@ -108,58 +155,32 @@ class ClientContainer extends React.Component
         //De ce se sterge?
         //console.log("User id in params: " + this.params.id);
 
-        //return API_CLIENT.getClientDevices(this.params,(result, status, err) => {
-        return API_CLIENT.getClientDevices((result, status, err) => {
-            if (result !== null && status === 200) {
+        //Da eroare daca nu avem id, trebuie sa fie number;
+        console.log("Testul 4: " + userId);
 
-                //Aici putem folosi lista de result, sau ce se primeste;
-                //Trebuie trimisa lista, altfel nu putem afisa tabelul;
-                //Nici o validare la tabel;
+        if(userId !== "noId")
+        {
+            //return API_CLIENT.getClientDevices(this.params,(result, status, err) => {
+            return API_CLIENT.getClientDevices(userId, (result, status, err) =>
+            {
+                if (result !== null && status === 200) {
 
-                this.setState({
-                    tableData: result,
-                    isLoaded: true
-                });
-            } else {
-                this.setState(({
-                    errorStatus: status,
-                    error: err
-                }));
-            }
-        });
-    }
+                    //Aici putem folosi lista de result, sau ce se primeste;
+                    //Trebuie trimisa lista, altfel nu putem afisa tabelul;
+                    //Nici o validare la tabel;
 
-
-    fetchUserRole() {
-        return API_CLIENT.getUserRole((result, status, err) => {
-            if (result !== null && status === 200) {
-                //Home:
-                if(result === "noRole")
-                {
-                    let newPath = '/';
-                    this.props.history.push(newPath);
+                    this.setState({
+                        tableData: result,
+                        isLoaded: true
+                    });
+                } else {
+                    this.setState(({
+                        errorStatus: status,
+                        error: err
+                    }));
                 }
-                //Admin:
-                else if(result === "admin")
-                {
-                    let newPath = '/admin';
-                    this.props.history.push(newPath);
-                }
-                //Client:
-                else if(result === "client")
-                {
-                    //Este doar o pagina oricum:
-                    let newPath = '/client';
-                    this.props.history.push(newPath);
-                }
-            }
-            else {
-                this.setState(({
-                    errorStatus: status,
-                    error: err
-                }));
-            }
-        });
+            });
+        }
     }
 
 
@@ -191,19 +212,24 @@ class ClientContainer extends React.Component
 
     //Result:
     fetchUserName() {
-        return API_CLIENT.getUserName((result, status, err) => {
-            if (result !== null && status === 200) {
-                //Dam numele mai departe;
-                this.userName = result; //Recunoaste cu this;
-                //this.userName = "Altceva";
-            }
-            else {
-                this.setState(({
-                    errorStatus: status,
-                    error: err
-                }));
-            }
-        });
+        //return API_CLIENT.getUserName((result, status, err) => {
+        //return((result = this.cookieRef.current.state.name) => {
+
+        let result = this.cookieRef.current.state.name;
+        //let result = this.cookieRef.current.props.cookies.get("name");
+        console.log("Testul 3: " + result);
+        if (result !== null) { //&& status === 200) {
+            //Dam numele mai departe;
+            this.userName = result; //Recunoaste cu this;
+            //this.userName = "Altceva";
+        }
+        else {
+            //this.setState(({
+            //    errorStatus: status,
+            //    error: err
+            //}));
+        }
+        //});
     }
 
     //Pentru form:
@@ -233,7 +259,7 @@ class ClientContainer extends React.Component
         this.toggleForm();
         this.fetchUserRole();
         this.fetchUserName();
-        this.fetchClientDevices();
+        this.fetchClientDevices(this.cookieRef.current.state.id);
         //this.redirectToHome();
     }
 
@@ -249,7 +275,7 @@ class ClientContainer extends React.Component
         //this.toggleFormChart();
         this.fetchUserRole();
         this.fetchUserName();
-        this.fetchClientDevices();
+        this.fetchClientDevices(this.cookieRef.current.state.id);
     }
 
     reloadDescription(){
@@ -259,12 +285,15 @@ class ClientContainer extends React.Component
         //this.toggleFormDescription();
         this.fetchUserRole();
         this.fetchUserName();
-        this.fetchClientDevices();
+        this.fetchClientDevices(this.cookieRef.current.state.id);
     }
 
     render() {
         return (
             <div style={divTotal}>
+
+                <UserCookie ref={this.cookieRef} />
+
                 <CardHeader style={managementTitle}>
                     <strong> Hello {this.userName}! These are your devices: </strong>
                 </CardHeader>

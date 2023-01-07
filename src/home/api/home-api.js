@@ -33,16 +33,26 @@ function getUserById(params, callback){
 */
 
 
+
+
+//Avem asa:
+//1) Get: Sa stii ca nu esti logat; (Esti in HOME) (Nu mai trebuie)
+//2) Post: Pentru login, trimiti nume parola, si primesti userul logat si rolul lui pentru redirect;
+//In functie de ce primeste de la post, face redirect unde trebuie;
+
+
+
 //Probabil trebuie alt link:
 //Endpointuri diferite!!!
-function getNoRole(callback){
-    let request = new Request(HOST.backend_api + endpoint.home + "/noRole", {
-        method: 'GET',
-    });
+// function getNoRole(callback){
+//     let request = new Request(HOST.backend_api + endpoint.home + "/noRole", {
+//         method: 'GET',
+//     });
+//
+//     console.log(request.url);
+//     RestApiClient.performRequest(request, callback);
+// }
 
-    console.log(request.url);
-    RestApiClient.performRequest(request, callback);
-}
 
 
 //Apeleaza pentru post:
@@ -61,14 +71,16 @@ function userRoleRedirect(homeUser, callback){
     //console.log("All User is: " + typeof homeUser);
     //Request + Callback;
     //String - Json - String;
+    //DTO nu ii STRING;
     RestApiClient.performRequest(request, callback);
 }
+
 
 
 export {
     //getUsers,
     //getUserById,
-    getNoRole,
+    ////getNoRole,
     userRoleRedirect
 };
 

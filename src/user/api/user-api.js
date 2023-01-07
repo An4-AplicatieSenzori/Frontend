@@ -11,6 +11,16 @@ const endpoint = {
 
 
 
+//Avem asa:
+//1) Get: User Role; (Nefolosit)
+//2) Get: All Users; (Toate datele lor)
+//3) Get: A User By ID (Nefolosit);
+//4) Post: Insert User;
+//5) Post: Update User;
+//6) Post: Delete User;
+
+
+
 //Lucreaza direct cu backend-ul;
 //Functie 1: GET all users;
 function getUsers(callback) {
@@ -25,13 +35,13 @@ function getUsers(callback) {
 
 
 //Result de la get este ROLE ca sa vad ce role are userul;
-function getUserRole(callback){
-    let request = new Request(HOST.backend_api + endpoint.user + "/userRole", {
-        method: 'GET',
-    });
-    console.log(request.url);
-    RestApiClient.performRequest(request, callback);
-}
+// function getUserRole(callback){
+//     let request = new Request(HOST.backend_api + endpoint.user + "/userRole", {
+//         method: 'GET',
+//     });
+//     console.log(request.url);
+//     RestApiClient.performRequest(request, callback);
+// }
 
 
 //Functie 2: GET 1 user, by id:
@@ -102,7 +112,7 @@ function deleteUser(user, callback){
 //Functii ca in service;
 export {
     getUsers,
-    getUserRole,
+    //getUserRole,
     getUserById,
     postUser,
     updateUser,

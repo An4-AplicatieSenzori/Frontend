@@ -17,6 +17,7 @@ import UserFormDelete from "./components/user-form-delete";
 import * as API_USERS from "./api/user-api" //Pagina API;
 import UserTable from "./components/user-table";
 import { withRouter } from "react-router-dom";
+import UserCookie from "../userCookie";
 
 
 
@@ -56,6 +57,8 @@ class UserContainer extends React.Component
             errorStatus: 0,
             error: null
         };
+
+        this.cookieRef = React.createRef();
     }
 
     //? Face toate geturile, fetchurile, nu stiu daca se fac in ordine;
@@ -101,42 +104,46 @@ class UserContainer extends React.Component
 
 
     fetchUserRole() {
-        return API_USERS.getUserRole((result, status, err) => {
-            if (result !== null && status === 200) {
+        //return API_USERS.getUserRole((result, status, err) => {
+        //return((result = this.cookieRef.current.state.role) => {
 
-                //Redirect daca nu avem "admin" ca role, redirect la HOME!
-                //Delogare daca incerci sa accesezi pagina care nu iti corespunde;
-                //Asa este mai usor, mergem pe home;
+        let result = this.cookieRef.current.state.role;
+        //let result = this.cookieRef.current.props.cookies.get("role");
+        if (result !== null) { //&& status === 200) {
 
-                //Cand nu ai role, sau est client, nu te va duce la admin;
-                if(result === "noRole")
-                {
-                    //Back to Home;
-                    let newPath = '/';
-                    this.props.history.push(newPath);
-                }
-                else if(result === "admin")
-                {
-                    //Nothing! Nu trebuie facut nimic!
-                    //Daca faci ceva, te duce la admin!
-                    //let newPath = '/admin';
-                    //this.props.history.push(newPath);
-                }
-                else if(result === "client")
-                {
-                    //Tot la user ar trebui redirectat:
-                    //Redirectare la pagina de client;
-                    let newPath = '/client';
-                    this.props.history.push(newPath);
-                }
+            //Redirect daca nu avem "admin" ca role, redirect la HOME!
+            //Delogare daca incerci sa accesezi pagina care nu iti corespunde;
+            //Asa este mai usor, mergem pe home;
+
+            //Cand nu ai role, sau est client, nu te va duce la admin;
+            if(result === "noRole")
+            {
+                //Back to Home;
+                let newPath = '/';
+                this.props.history.push(newPath);
             }
-             else {
-                this.setState(({
-                    errorStatus: status,
-                    error: err
-                }));
+            else if(result === "admin")
+            {
+                //Nothing! Nu trebuie facut nimic!
+                //Daca faci ceva, te duce la admin!
+                //let newPath = '/admin';
+                //this.props.history.push(newPath);
             }
-        });
+            else if(result === "client")
+            {
+                //Tot la user ar trebui redirectat:
+                //Redirectare la pagina de client;
+                let newPath = '/client';
+                this.props.history.push(newPath);
+            }
+        }
+        else {
+            //this.setState(({
+            //    errorStatus: status,
+            //    error: err
+            //}));
+        }
+        //});
     }
 
 
@@ -252,6 +259,9 @@ class UserContainer extends React.Component
                         <UserFormDelete reloadHandler={this.reloadDelete}/>
                     </ModalBody>
                 </Modal>
+
+                <UserCookie ref={this.cookieRef} />
+
             </div>
         )
     }

@@ -5,6 +5,7 @@ import * as API_CLIENT from "../api/client-api";
 import APIResponseErrorMessage from "../../commons/errorhandling/api-response-error-message";
 import {Col, Row} from "reactstrap";
 import { FormGroup, Input, Label} from 'reactstrap';
+import UserCookie from "../../userCookie";
 
 class ClientFormDescription extends React.Component {
 
@@ -75,6 +76,7 @@ class ClientFormDescription extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.cookieRef = React.createRef();
     }
 
     toggleForm() {
@@ -119,31 +121,37 @@ class ClientFormDescription extends React.Component {
 
 
     getClientData() {
-       return API_CLIENT.getClientData((result, status, error) => {
-           if (result !== null && (status === 200 || status === 201)) {
+       //return API_CLIENT.getClientData((result, status, error) => {
+        //return((result = this.cookieRef.current.state.name) => {
+        let result_name = this.cookieRef.current.state.name;
+        let result_email = this.cookieRef.current.state.email;
+        let result_age = this.cookieRef.current.state.age;
+        let result_address = this.cookieRef.current.state.address;
+        if (result_name !== null && result_email !== null && result_age !== null && result_address !== null) { //&& (status === 200 || status === 201)) {
 
-               console.log("Successfully got client!");
+            console.log("Successfully got client!");
 
-               //Folosire result:
-               //client = result;
-               //Vad daca merge asa:
-               //this.clientCurent = result;
-               this.clientCurent.name = result.name;
-               this.clientCurent.email = result.email;
-               this.clientCurent.age = result.age;
-               this.clientCurent.address = result.address;
+            //Folosire result:
+            //client = result;
+            //Vad daca merge asa:
+            //this.clientCurent = result;
+            //Pun dupa restul:
+            this.clientCurent.name = result_name;
+            this.clientCurent.email = result_email;
+            this.clientCurent.age = result_age;
+            this.clientCurent.address = result_address;
 
-               console.log("Nume: " + this.clientCurent.name + " ,Email: " + this.clientCurent.email +
-               ",Age: " + this.clientCurent.age + " ,Address: " + this.clientCurent.address);
+            console.log("Nume: " + this.clientCurent.name + " ,Email: " + this.clientCurent.email +
+                ",Age: " + this.clientCurent.age + " ,Address: " + this.clientCurent.address);
 
-               this.reloadHandler();
-           } else {
-               this.setState(({
-                   errorStatus: status,
-                   error: error
-               }));
-           }
-       });
+            this.reloadHandler();
+        } else {
+            //this.setState(({
+            //    errorStatus: status,
+            //    error: error
+            //}));
+        }
+       //});
     }
 
     handleSubmit() {
@@ -228,6 +236,8 @@ class ClientFormDescription extends React.Component {
                     this.state.errorStatus > 0 &&
                     <APIResponseErrorMessage errorStatus={this.state.errorStatus} error={this.state.error}/>
                 }
+
+                <UserCookie ref={this.cookieRef} />
             </div>
         ) ;
     }

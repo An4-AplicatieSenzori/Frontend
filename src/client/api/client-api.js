@@ -15,13 +15,24 @@ const endpoint = {
 };
 
 
+
+//Avem asa:
+//1) Get: All clients Devices;
+//2) Get: Client Data; (Nefolosit)
+//3) Get: User Role; (Nefolosit)
+//4) Get: A User Name; (Nefolosit)
+//5) Get: Device data, adica datele sale de energie;
+//Luam toate datele sale de energie, si filtram dupa in functie de zi;
+
+
+
 //La user id nu trebuie?
 //La get doar cu id putem sa trimitem mai departe la backend ceva;
 //+ "/";
 //Mai complicat decat credeam;
-function getClientDevices(callback) {
+function getClientDevices(userId, callback) {
     //let request = new Request(HOST.backend_api + endpoint.clientDevice + "/clientDevices" + "/" + params.id, {
-    let request = new Request(HOST.backend_api + endpoint.clientDevice + "/clientDevices", {
+    let request = new Request(HOST.backend_api + endpoint.clientDevice + "/clientDevices/" + userId, {
         method: 'GET',
     });
 
@@ -30,27 +41,27 @@ function getClientDevices(callback) {
 }
 
 
-function getClientData(callback) {
-    let request = new Request(HOST.backend_api + endpoint.clientUser + "/clientData", {
-        method: 'GET',
-    });
-
-    console.log(request.url);
-    RestApiClient.performRequest(request, callback);
-
-    // console.log("Nume: " + this.clientCurent.name + " ,Email: " + this.clientCurent.email +
-    //     ",Age: " + this.clientCurent.age + " ,Address: " + this.clientCurent.address);
-}
+// function getClientData(callback) {
+//     let request = new Request(HOST.backend_api + endpoint.clientUser + "/clientData", {
+//         method: 'GET',
+//     });
+//
+//     console.log(request.url);
+//     RestApiClient.performRequest(request, callback);
+//
+//     // console.log("Nume: " + this.clientCurent.name + " ,Email: " + this.clientCurent.email +
+//     //     ",Age: " + this.clientCurent.age + " ,Address: " + this.clientCurent.address);
+// }
 
 
 //Same function:
-function getUserRole(callback){
-    let request = new Request(HOST.backend_api + endpoint.clientUser + "/userRole", {
-        method: 'GET',
-    });
-    console.log(request.url);
-    RestApiClient.performRequest(request, callback);
-}
+// function getUserRole(callback){
+//     let request = new Request(HOST.backend_api + endpoint.clientUser + "/userRole", {
+//         method: 'GET',
+//     });
+//     console.log(request.url);
+//     RestApiClient.performRequest(request, callback);
+// }
 
 
 /*
@@ -64,13 +75,13 @@ function getUserId(callback){
 */
 
 
-function getUserName(callback){
-    let request = new Request(HOST.backend_api + endpoint.clientUser + "/userName", {
-        method: 'GET',
-    });
-    console.log(request.url);
-    RestApiClient.performRequest(request, callback);
-}
+// function getUserName(callback){
+//     let request = new Request(HOST.backend_api + endpoint.clientUser + "/userName", {
+//         method: 'GET',
+//     });
+//     console.log(request.url);
+//     RestApiClient.performRequest(request, callback);
+// }
 
 
 
@@ -78,8 +89,8 @@ function getUserName(callback){
 //+ "/deleteUser",
 //Stie sa puna in plus fata de url si ce ii dau cu stringify parametru;
 //NU POTI PUNE PE RANDURI DIFERITE REQUEST PENTRU CA NU IL IA CA STRING BUN!!!
-function getDeviceData(deviceTitle, callback){
-    let request = new Request(HOST.backend_api + endpoint.deviceData + "/deviceTitle/" + deviceTitle, {
+function getDeviceData(deviceTitle, userId, callback){
+    let request = new Request(HOST.backend_api + endpoint.deviceData + "/deviceTitle/" + deviceTitle + "/" + userId, {
         method: 'GET',
 
         //Stringify si pentru un STRING, sper ca merge sa transmiti asa in backend;
@@ -97,11 +108,11 @@ function getDeviceData(deviceTitle, callback){
 
 //Nu trebuie functie pentru buton de back;
 export {
-    getUserRole,
-    getClientData,
+    //getUserRole,
+    //getClientData,
     getDeviceData,
-    //getUserId,
-    getUserName,
+    ////getUserId,
+    //getUserName,
     getClientDevices,
 };
 

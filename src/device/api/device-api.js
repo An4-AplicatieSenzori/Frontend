@@ -7,13 +7,24 @@ const endpoint = {
 };
 
 
-function getUserRole(callback){
-    let request = new Request(HOST.backend_api + endpoint.user + "/userRole", {
-        method: 'GET',
-    });
-    console.log(request.url);
-    RestApiClient.performRequest(request, callback);
-}
+
+//Avem asa:
+//1) Get: User Role; (Nefolosit)
+//2) Get: All Devices; (Toate datele lor)
+//3) Get: A Device By ID (Nefolosit);
+//4) Post: Insert Device;
+//5) Post: Update Device;
+//6) Post: Delete Device;
+
+
+
+// function getUserRole(callback){
+//     let request = new Request(HOST.backend_api + endpoint.user + "/userRole", {
+//         method: 'GET',
+//     });
+//     console.log(request.url);
+//     RestApiClient.performRequest(request, callback);
+// }
 
 
 //Get all:
@@ -84,7 +95,7 @@ function deleteDevice(device, callback){
 
 
 export {
-    getUserRole,
+    //getUserRole,
     updateDevice,
     deleteDevice,
     getDevices,

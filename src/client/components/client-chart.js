@@ -8,6 +8,7 @@ import { FormGroup, Input, Label} from 'reactstrap';
 //Pentru DATE si pentru CHART:
 import DatePicker from 'react-date-picker';
 import Chart from 'react-apexcharts'
+import UserCookie from "../../userCookie";
 
 
 //Si metode POST, si metode GET, depinde
@@ -102,6 +103,8 @@ class ClientChart extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChangeChartDate = this.handleChangeChartDate.bind(this);
         this.handleChangeChartValues = this.handleChangeChartValues.bind(this);
+
+        this.cookieRef = React.createRef();
     }
 
     //La fel:
@@ -151,13 +154,13 @@ class ClientChart extends React.Component {
         //Titlul deviceului, trimis in backend aici:
         //String
         let device = {
-            title: this.state.formControls.title.value,
+            title: this.state.formControls.title.value
         };
 
         //console.log(device);
         //this.getDeviceData(this.device.title); //Nu este in state, not in this!
         //Aici apeleaza datele;
-        this.getDeviceData(device.title); //In title direct, nu mai trebuie accesat alt camp!!!
+        this.getDeviceData(device.title, this.cookieRef.current.state.id); //In title direct, nu mai trebuie accesat alt camp!!!
     }
 
 
@@ -179,8 +182,8 @@ class ClientChart extends React.Component {
 
     //Parametru dat, titlul deviceului:
     //Handle submit pentru cand introduc un title nou:
-    getDeviceData(deviceTitle) {
-        return API_CLIENT.getDeviceData(deviceTitle, (result, status, error) => {
+    getDeviceData(deviceTitle, userId) {
+        return API_CLIENT.getDeviceData(deviceTitle, userId, (result, status, error) => {
             if (result !== null && (status === 200 || status === 201)) {
 
                 //Result cu datele deviceului (IN TOATE ZILELE!!! Nu doar 1, filtrare aici):
@@ -399,6 +402,9 @@ class ClientChart extends React.Component {
                     this.state.errorStatus > 0 &&
                     <APIResponseErrorMessage errorStatus={this.state.errorStatus} error={this.state.error}/>
                 }
+
+                <UserCookie ref={this.cookieRef} />
+
             </div>
         ) ;
     }

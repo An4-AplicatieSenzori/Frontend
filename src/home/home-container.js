@@ -18,6 +18,7 @@ import HomeForm from "./components/home-form";
 import * as API_HOME from "./api/home-api"
 //import * as API_USERS from "../user/api/user-api";
 //import HomeTable from "./components/home-table";
+import UserCookie from "../userCookie";
 
 const backgroundStyle = {
     backgroundPosition: 'center',
@@ -65,11 +66,15 @@ class HomeContainer extends React.Component
             errorStatus: 0,
             error: null
         };
+
+        this.cookieRef = React.createRef();
     }
 
     //Pentru gets:
     componentDidMount() {
         this.fetchNoRole();
+        //Trebuie refacut rolul la 0: De aici rezolva si back, deci doar aici trebuie:
+        this.cookieRef.current.setAllNull();
         //this.fetchClients();
     }
 
@@ -80,27 +85,33 @@ class HomeContainer extends React.Component
         };
     }
 
+    //Nu face redirect;
     fetchNoRole() {
-        return API_HOME.getNoRole((result, status, err) => {
-            if (result !== null && status === 200) {
-                //Nu se face nimic la niciuna:
-                if(result === "noRole")
-                {
-                }
-                else if(result === "admin")
-                {
-                }
-                else if(result === "client")
-                {
-                }
+        //return API_HOME.getNoRole((result, status, err) => {
+        //return((result = this.cookieRef.current.state.role) => {
+
+        let result = this.cookieRef.current.state.role;
+        //let result = this.cookieRef.current.props.cookies.get("role");
+        console.log("Test nou 1: " + result);
+        if (result !== null) { //&& status === 200) {
+            //Nu se face nimic la niciuna:
+            if(result === "noRole")
+            {
             }
-            else {
-                this.setState(({
-                    errorStatus: status,
-                    error: err
-                }));
+            else if(result === "admin")
+            {
             }
-        });
+            else if(result === "client")
+            {
+            }
+        }
+        else {
+            //this.setState(({
+            //    errorStatus: status,
+            //    error: err
+            //}));
+        }
+        //});
     }
 
     //? Pentru afisare?
@@ -160,6 +171,8 @@ class HomeContainer extends React.Component
                         <HomeForm reloadHandler={this.reload}/>
                     </ModalBody>
                 </Modal>
+
+                <UserCookie ref={this.cookieRef} />
 
             </div>
         )
