@@ -205,9 +205,35 @@ class ClientChart extends React.Component {
                     //Date curent luat din startDate, cu "YEAR(An)-MONTH(+1)(Luna)-DATE(Ziua)"; Luna este in spate cu 1,
                     //trebuie convertita;
 
-                    //Selectat din front end ce data am ales:
-                    let dateCurrentFrontEnd = this.state.startDate.getFullYear() + '-' +
-                        (this.state.startDate.getMonth() + 1) + '-' + this.state.startDate.getDate();
+                    //Selectat din front end ce data am ales: Trebuie sa fac 0 pentru cand am 1 singura cifra;
+                    let dateCurrentFrontEnd;
+
+                    if(this.state.startDate.getMonth() < 10)
+                    {
+                        if(this.state.startDate.getDate() < 10)
+                        {
+                            dateCurrentFrontEnd = this.state.startDate.getFullYear() + '-0' +
+                                (this.state.startDate.getMonth() + 1) + '-0' + this.state.startDate.getDate();
+                        }
+                        else
+                        {
+                            dateCurrentFrontEnd = this.state.startDate.getFullYear() + '-0' +
+                                (this.state.startDate.getMonth() + 1) + '-' + this.state.startDate.getDate();
+                        }
+                    }
+                    else
+                    {
+                        if(this.state.startDate.getDate() < 10)
+                        {
+                            dateCurrentFrontEnd = this.state.startDate.getFullYear() + '-' +
+                                (this.state.startDate.getMonth() + 1) + '-0' + this.state.startDate.getDate();
+                        }
+                        else
+                        {
+                            dateCurrentFrontEnd = this.state.startDate.getFullYear() + '-' +
+                                (this.state.startDate.getMonth() + 1) + '-' + this.state.startDate.getDate();
+                        }
+                    }
 
                     console.log("Date FrontEnd: " + dateCurrentFrontEnd);
 
@@ -219,6 +245,8 @@ class ClientChart extends React.Component {
                     let dateCurrentBD = deviceDay.dayPlusHourSelected.substr(0, 10); //Tot nu apare...;
 
                     console.log("Date BD: " + dateCurrentBD);
+                    //Pentru cand data este mai mica de 10, trebuie adaugat un 0: sau mai sus sa stergi un 0;
+
 
                     //Daca acele 2 date sunt egale, se pastreaza in lista de mai sus:
                     if (dateCurrentFrontEnd === dateCurrentBD) {
@@ -232,6 +260,12 @@ class ClientChart extends React.Component {
                         //2 Liste ce contin datele noului chart;
                     }
                 });
+
+
+                //Nu le mai pune:
+                console.log("Test 1 + 2: " + hoursChart);
+                console.log("Test 1 + 2: " + valuesChart);
+
 
                 //Aici am folosit chart-ul, pentru a introduce datele noi:
                 //Dupa care trebuie setat un nou CHART!!! Cu datele bune!
