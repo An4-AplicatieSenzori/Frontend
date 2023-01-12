@@ -12,10 +12,12 @@ import {
 } from 'reactstrap';
 //import AdminForm from "./components/admin-form";
 import * as API_ADMIN from "./api/admin-api"
+import AdminChatBox from "./components/admin-chatBox";
 //import AdminTable from "./components/admin-table";
 import { withRouter } from "react-router-dom";
 import * as API_CLIENT from "../client/api/client-api";
 import UserCookie from "../userCookie";
+import ClientChatBox from "../client/components/client-chatBox";
 
 
 const managementTitle = {
@@ -187,7 +189,19 @@ class AdminContainer extends React.Component
 
                 </Card>
 
+                <br/>
+
+                {/*Pentru chatbox:*/}
+                <AdminChatBox/>
+
+                <br/>
+                <br/>
+                <br/>
+
                 <UserCookie ref={this.cookieRef} />
+
+                <br/>
+
             </div>
         )
     }

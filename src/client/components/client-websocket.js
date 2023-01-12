@@ -63,6 +63,12 @@ const SOCKET_URL = HOST.backend_api + '/webSocketMessage';
 
 
 
+const notificationForChart = {
+    width: '55%',
+    height: '100%',
+    float: 'left'
+};
+
 
 //deviceData primeste onMessage, si dupa foloseste datele lui!
 //2) Versiune cu clase:
@@ -90,7 +96,6 @@ class ClientWebSocket extends React.Component {
     {
         console.log("Connected!")
     }
-
     //Pentru daca se deconecteaza:
     onDisconnected()
     {
@@ -114,7 +119,7 @@ class ClientWebSocket extends React.Component {
 
     render() {
         return(
-            <div>
+            <div style = {notificationForChart}>
 
                 <SockJsClient
                     url={SOCKET_URL}
@@ -127,7 +132,7 @@ class ClientWebSocket extends React.Component {
 
                 <div>
                     <h3 style = {{textAlign: "center", backgroundColor: "#ee4141",
-                    padding: "3% 3% 3% 3%", marginLeft: "17%", marginRight: "17%"}}>
+                    padding: "3% 3% 3% 3%", marginLeft: "31%", marginRight: "2%"}}>
                         The device with id: {this.state.deviceData.deviceID} with
                         value: {this.state.deviceData.value} exceeded
                         the limit at: {this.state.deviceData.currentTime} !

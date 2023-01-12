@@ -16,6 +16,8 @@ const endpoint = {
 
 
 
+
+
 //Avem asa:
 //1) Get: All clients Devices;
 //2) Get: Client Data; (Nefolosit)
@@ -106,6 +108,31 @@ function getDeviceData(deviceTitle, userId, callback){
 
 
 
+
+//Trimis mesaj de la CLIENT LA ADMIN:
+function messageFromClientToAdmin(message, callback){
+
+    //console.log("Test api 1: " + message.clientMessage);
+    //console.log("Test api 2: " + message.clientId);
+
+    let request = new Request(HOST.backend_api + endpoint.clientUser + "/messageFromClientToAdmin", {
+        method: 'POST',
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        //Bad Request?
+        //Nu se poate stringify la anumite elemente: Nu se poate la id sau ceva idk;
+        body: JSON.stringify(message) //Un obiect cu date in el;
+    });
+
+    console.log("URL: " + request.url); //?
+    RestApiClient.performRequest(request, callback);
+}
+
+
+
+
 //Nu trebuie functie pentru buton de back;
 export {
     //getUserRole,
@@ -114,6 +141,7 @@ export {
     ////getUserId,
     //getUserName,
     getClientDevices,
+    messageFromClientToAdmin
 };
 
 

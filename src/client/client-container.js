@@ -11,6 +11,7 @@ import {
     Row
 } from 'reactstrap';
 //import ClientForm from "./components/client-form";
+import ClientChatBox from "./components/client-chatBox";
 import ClientChart from "./components/client-chart";
 import ClientWebSocket from "./components/client-websocket"
 import ClientDescription from "./components/client-description";
@@ -63,8 +64,9 @@ class ClientContainer extends React.Component
         this.toggleFormChart = this.toggleFormChart.bind(this);
         this.reload = this.reload.bind(this);
         this.reloadDescription = this.reloadDescription.bind(this);
-        //Ups am comentat aici:
         this.reloadChart = this.reloadChart.bind(this);
+        // this.reloadChatBox = this.reloadChatBox.bind(this);
+
         this.state = {
             selected: false,
             selectedChart: false,
@@ -288,6 +290,16 @@ class ClientContainer extends React.Component
         this.fetchClientDevices(this.cookieRef.current.state.id);
     }
 
+    //Trebuie?
+    // reloadChatBox(){
+    //     this.setState({
+    //         isLoaded: false
+    //     });
+    //     this.fetchUserRole();
+    //     this.fetchUserName();
+    //     this.fetchClientDevices(this.cookieRef.current.state.id);
+    // }
+
     render() {
         return (
             <div style={divTotal}>
@@ -326,7 +338,12 @@ class ClientContainer extends React.Component
                     <br/>
                     <br/>
 
-                    <ClientWebSocket/>
+                    {/*Aranjez una langa cealalta:*/}
+                    {/*style = {{display: inline-block} }*/}
+                    <div>
+                        <ClientWebSocket/>
+                        <ClientChatBox/>
+                    </div>
 
                     <br/>
                     <br/>
