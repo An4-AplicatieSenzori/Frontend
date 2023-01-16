@@ -17,18 +17,21 @@ import {
 import {HOST} from '../../commons/hosts';
 import * as API_USERS from "../../user/api/user-api";
 import validate from "../../user/components/validators/user-validators";
+import * as API_ADMIN from "../../admin/api/admin-api";
 
 
 //Tot ce este diferit C-A fata de A-C este ca se trimite si unde vrei sa ajungi, altceva nu cred;
 // const SOCKET_URL = HOST.backend_api + '/webSocketMessage';
 const SOCKET_URL = HOST.backend_api + '/webSocketMessageClient';
 
+const SOCKET_URL_TYPING = HOST.backend_api + '/webSocketMessageTypingClient';
+const SOCKET_URL_READ = HOST.backend_api + '/webSocketMessageReadClient';
 
 
 const chatBox = {
     // marginLeft: '17%',
     border: '8px solid red',
-    borderRadius: '3%',
+    borderRadius: '1%',
     //width: '25%',
     width: '30%',
     height: '100%',
@@ -49,6 +52,37 @@ const messageLabel = {
     fontSize: "large",
 };
 
+const typingMessageAdmin = {
+    // border: '2px solid white',
+    // borderRadius: '2%',
+    // padding: "1% 1% 1% 1%",
+    width: "90%",
+    // height: "0%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    marginBottom: "7%",
+    textAlign: "center",
+    fontSize: "8vh", //"large",
+    color: "#24e8c4", //"red",
+    // fontColor: "red",
+    // visibility: "hidden"
+};
+
+
+const readMessageAdmin = {
+    // padding: "1% 1% 1% 1%",
+    width: "90%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    marginBottom: "2%",
+    textAlign: "center",
+    fontSize: "3vh",
+    color: "black", //"#24e8c4",
+    // height: "0%",
+    backgroundColor: "#c20d0d",
+};
+
+
 const messageOutput = {
     border: '2px solid black',
     backgroundColor: "#1a38e0",
@@ -59,6 +93,7 @@ const messageOutput = {
     overflowY: "scroll",
     minHeight: "40vh", //"60%", Nu merge procente;
     maxHeight: "40vh", //"90%",
+    paddingBottom: "3%",
 };
 
 const messageInput = {
@@ -67,6 +102,7 @@ const messageInput = {
     width: "90%",
     marginLeft: "5%",
     marginRight: "5%",
+    resize: "none"
 };
 
 const sendButton = {
@@ -95,6 +131,8 @@ class ClientChatBox extends React.Component
             placeholderValue: "Type message here!",
             clientMessage: '', //null,
             adminMessage: '', //null,
+            adminTyping: null,
+            adminRead: null,
             completMessage: "Hello there! Chat with admin anytime!", //"No conversation started yet!", //De la client si admin;
             adminChatId: null,
             clientChatId: null,
@@ -105,15 +143,19 @@ class ClientChatBox extends React.Component
             errorStatus: 0,
             error: null,
             chatBox: [], //null,
+            lastSent: null,
         };
 
         //Pentru bind, change and submit:
         this.handleChangeClientMessage = this.handleChangeClientMessage.bind(this);
+        this.handleRead = this.handleRead.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         // this.showChatBoxSent = this.showChatBoxSent.bind(this);
         // this.reloadHandler = this.props.reloadHandler;
         // this.reload = this.reload.bind(this);
 
+        //Referinta la div de input, cel de output mesaje:
+        this.messageOutputDiv = React.createRef();
         this.cookieRef = React.createRef();
     }
 
@@ -149,8 +191,19 @@ class ClientChatBox extends React.Component
     // };
 
 
+    componentDidUpdate()
+    {
+        this.scrollMessagesDown();
+    }
 
-    //Connect + Disconnect:
+
+    scrollMessagesDown = () => {
+        this.messageOutputDiv.current.scroll({ top:
+            this.messageOutputDiv.current.scrollHeight, behavior: 'smooth' });
+    };
+
+
+    //Connect + Disconnect: intre A-C, C-A:
     onConnected()
     {
         console.log("Connected! Client-Admin")
@@ -158,6 +211,26 @@ class ClientChatBox extends React.Component
     onDisconnected()
     {
         console.log("Disconnected! Client-Admin")
+    }
+
+    //Connect + Disconnect: typing intre A-C, C-A:
+    onConnectedTyping()
+    {
+        console.log("Connected! Client-Admin Typing")
+    }
+    onDisconnectedTyping()
+    {
+        console.log("Disconnected! Client-Admin Typing")
+    }
+
+    //Connect + Disconnect: read intre A-C, C-A:
+    onConnectedRead()
+    {
+        console.log("Connected! Client-Admin Read")
+    }
+    onDisconnectedRead()
+    {
+        console.log("Disconnected! Client-Admin Read")
     }
 
 
@@ -208,11 +281,11 @@ class ClientChatBox extends React.Component
                         textAlign: "center",
                         // fontSize: "small",
                         border: '2px solid black',
-                        borderRadius: '8%',
+                        borderRadius: '3%', //'40%', //'8%',
                     }}
                     name='MessageOutput'
                     id='MessageOutput'
-                    value={this.state.completMessage}
+                    value="Hello there! Chat with admin anytime!" //Dau direct, mai sigur; //{this.state.completMessage}
                     type="textarea"
                     readOnly={true}
                     rows = "2"
@@ -221,6 +294,52 @@ class ClientChatBox extends React.Component
                 oneTime: 1,
             });
         }
+
+
+
+        //Aici pun direct din cookie:
+        let clientIdTyping = this.cookieRef.current.state.id; //this.state.clientChatId;
+        let typing;
+        if(event.target.value === "")
+        {
+            typing = ""
+        }
+        else
+        {
+            typing = ". . .";
+        }
+
+        let clientMessageTyping = {
+            clientIdTyping: clientIdTyping,
+            typing: typing
+        };
+
+        this.typingFromClientToAdmin(clientMessageTyping);
+    };
+
+
+    handleRead()
+    {
+        let clientIdRead = this.cookieRef.current.state.id; //this.state.clientChatId;
+        let read;
+
+       // read = "Read";
+
+        if(this.state.lastSent !== "me")
+        {
+            read = "Read";
+        }
+        else
+        {
+            read = "";
+        }
+
+        let clientMessageRead = {
+            clientIdRead: clientIdRead,
+            read: read
+        };
+
+        this.readFromClientToAdmin(clientMessageRead);
     };
 
 
@@ -299,6 +418,36 @@ class ClientChatBox extends React.Component
     }
 
 
+    typingFromClientToAdmin(typing) {
+        return API_CLIENT.typingFromClientToAdmin(typing, (result, status, error) =>
+        {
+            if (result !== null && (status === 200 || status === 201))
+            {
+            } else {
+                this.setState(({
+                    errorStatus: status,
+                    error: error
+                }));
+            }
+        });
+    }
+
+
+    readFromClientToAdmin(read) {
+        return API_CLIENT.readFromClientToAdmin(read, (result, status, error) =>
+        {
+            if (result !== null && (status === 200 || status === 201))
+            {
+            } else {
+                this.setState(({
+                    errorStatus: status,
+                    error: error
+                }));
+            }
+        });
+    }
+
+
     //DE LA ADMIN PRIMIT DATE;
     onMessageReceived(adminMessage)
     {
@@ -331,6 +480,42 @@ class ClientChatBox extends React.Component
         }
         //Else, nu se seteaza nimic, merge flowul ca si cum nu s-a intamplat nimic;
     }
+
+
+
+    onMessageTypingReceived(adminTyping)
+    {
+        console.log("Is he typing 1: " + adminTyping.typing);
+
+        //Este modificat clientId:
+        if(adminTyping.clientIdTyping === this.cookieRef.current.state.id) {
+            //Setez doar ce scriu in div!!!
+            //Asa se va seta si in div:
+
+            //Adaug si numele la typing:
+            // let numeConcatenat = this.state.adminName + " is typing " + adminTyping.typing;
+
+            this.setState({
+                adminTyping: adminTyping.typing //numeConcatenat //adminTyping.typing
+            });
+
+            console.log("Is he typing 2: " + adminTyping);
+            // this.showChatBoxReceived();
+        }
+    }
+
+
+    onMessageReadReceived(adminRead)
+    {
+        //Daca este egal cu id din cookie:
+        if(adminRead.clientIdRead === this.cookieRef.current.state.id)
+        {
+            this.setState({
+                adminRead: adminRead.read
+            });
+        }
+    }
+
 
 
     //Testare pentru cand se trimit:
@@ -367,9 +552,13 @@ class ClientChatBox extends React.Component
         // });
 
 
+        //Voi pune si ora in mesaj:
+        let today = new Date(); //Date.now(); //new Date();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
         //B) N DIVS:
         //Direct cookie:
-        this.state.completMessage = this.cookieRef.current.state.name + ":\n"; //clientName + ":\n";
+        this.state.completMessage = this.cookieRef.current.state.name + " (" + time + ")" + ":\n"; //clientName + ":\n";
         this.state.completMessage = this.state.completMessage + this.state.clientMessage;
         //Pentru add inputs multiple:
 
@@ -406,8 +595,9 @@ class ClientChatBox extends React.Component
                         width: "70%",
                         fontSize: "small",
                         border: '2px solid black',
-                        borderRadius: '8%',
+                        borderRadius: '3%', //'40%', //'8%',
                         resize: "none", //"both",//"auto", //"none",
+                        color: "#ffffff",
             }}
                 name='MessageOutput'
                 id='MessageOutput'
@@ -423,7 +613,8 @@ class ClientChatBox extends React.Component
             >
             </Input>),
             clientMessage: "",
-            placeholderValue: "Type message here!"
+            placeholderValue: "Type message here!",
+            lastSent: "me",
         });
 
         //STANGA:
@@ -466,9 +657,12 @@ class ClientChatBox extends React.Component
     {
         console.log("Insert admin message.");
 
+        //Voi pune si ora in mesaj:
+        let today = new Date(); //Date.now(); //new Date();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
         //Nu datele din cookies, ci datele primite de la admin:
-        this.state.completMessage = this.state.adminName + ":\n"; //nu name aici!!!
+        this.state.completMessage = this.state.adminName + " (" + time + ")" + ":\n"; //nu name aici!!!
         this.state.completMessage = this.state.completMessage + this.state.adminMessage;
 
         console.log("Name: " + this.state.name);
@@ -504,7 +698,7 @@ class ClientChatBox extends React.Component
                     width: "70%",
                     fontSize: "small",
                     border: '2px solid black',
-                    borderRadius: '8%',
+                    borderRadius: '3%', //'40%', //'8%',
                     resize: "none",
                 }}
                 name='MessageOutput'
@@ -515,8 +709,12 @@ class ClientChatBox extends React.Component
                 value={this.state.completMessage}
             >
             </Input>),
+            adminTyping: "", //"NoTyping",
+            adminRead: "", //Si pentru read!!!
+            lastSent: "notMe",
         });
 
+        this.scrollMessagesDown();
 
         //Dupa procesare, cum raman datele:
         //Message: cel care il primesti, nu il folosesti decat la o noua primire;
@@ -554,6 +752,29 @@ class ClientChatBox extends React.Component
                     onMessage={messageFromAdmin => this.onMessageReceived(messageFromAdmin)}
                     debug={false}
                 />
+
+
+
+                <SockJsClient
+                    url={SOCKET_URL_TYPING}
+                    topics={['/passingTypingToClient/typingToClient']}
+                    onConnect={this.onConnectedTyping}
+                    onDisconnect={this.onDisconnectedTyping}
+                    onMessage={typingFromAdmin => this.onMessageTypingReceived(typingFromAdmin)}
+                    debug={false}
+                />
+
+
+
+                <SockJsClient
+                    url={SOCKET_URL_READ}
+                    topics={['/passingReadToClient/readToClient']}
+                    onConnect={this.onConnectedRead}
+                    onDisconnect={this.onDisconnectedRead}
+                    onMessage={readFromAdmin => this.onMessageReadReceived(readFromAdmin)}
+                    debug={false}
+                />
+
 
 
                 <Label for='MessageBox'
@@ -610,10 +831,22 @@ class ClientChatBox extends React.Component
                 {/*INPUT BOX NOU: (div this time)*/}
                 <div
                     style = {messageOutput}
+                    ref = {this.messageOutputDiv}
                 >
                     {this.state.chatBox}
                 </div>
 
+
+                <div style = {typingMessageAdmin}>
+                    {this.state.adminTyping}
+                    {/*. . .*/}
+                </div>
+
+
+                <div style = {readMessageAdmin}>
+                    {this.state.adminRead}
+                    {/*. . .*/}
+                </div>
 
 
                 <br/>
@@ -629,6 +862,8 @@ class ClientChatBox extends React.Component
                        value={this.state.clientMessage}
                        type = "textarea"
                        rows = "2" //"3"
+                       // On Click ass well!!!
+                       onClick={this.handleRead}
                        onChange={this.handleChangeClientMessage}
                        // defaultValue={this.state.formControls.title.value}
                        // touched={this.state.formControls.title.touched? 1 : 0}

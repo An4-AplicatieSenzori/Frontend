@@ -133,6 +133,40 @@ function messageFromClientToAdmin(message, callback){
 
 
 
+function typingFromClientToAdmin(typing, callback)
+{
+    let request = new Request(HOST.backend_api + endpoint.clientUser + "/typingFromClientToAdmin", {
+        method: 'POST',
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(typing)
+    });
+
+    console.log("URL: " + request.url);
+    RestApiClient.performRequest(request, callback);
+}
+
+
+
+function readFromClientToAdmin(read, callback)
+{
+    let request = new Request(HOST.backend_api + endpoint.clientUser + "/readFromClientToAdmin", {
+        method: 'POST',
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(read)
+    });
+
+    console.log("URL: " + request.url);
+    RestApiClient.performRequest(request, callback);
+}
+
+
+
 //Nu trebuie functie pentru buton de back;
 export {
     //getUserRole,
@@ -141,7 +175,9 @@ export {
     ////getUserId,
     //getUserName,
     getClientDevices,
-    messageFromClientToAdmin
+    messageFromClientToAdmin,
+    typingFromClientToAdmin,
+    readFromClientToAdmin,
 };
 
 

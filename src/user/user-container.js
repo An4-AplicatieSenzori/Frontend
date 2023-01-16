@@ -18,6 +18,7 @@ import * as API_USERS from "./api/user-api" //Pagina API;
 import UserTable from "./components/user-table";
 import { withRouter } from "react-router-dom";
 import UserCookie from "../userCookie";
+import BackgroundImgAdmin from "../commons/images/adminBackground4.jpg"; //4.jpg"; //3.jpg"; //2.jpg"; //1.png";
 
 
 
@@ -28,9 +29,19 @@ const managementTitle = {
     backgroundColor: '#549be2',
 };
 
-const divTotal = {
+const backgroundStyleAdmin = {
     overflow: 'hidden',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    width: "100%",
+    // height: "3840px",
+    backgroundImage: `url(${BackgroundImgAdmin})`
 };
+
+// const divTotal = {
+//     overflow: 'hidden',
+// };
 
 //Clasa container: Containerul contine tabelul?
 //Functii din React Component: toggleForm / reload / render...;
@@ -198,12 +209,13 @@ class UserContainer extends React.Component
     //Return la div:
     render() {
         return (
-            <div style={divTotal}>
+            // <div style={backgroundStyleAdmin}>
+            <div>
                 <CardHeader style={managementTitle}>
                     <strong> User Management </strong>
                 </CardHeader>
 
-                <Card>
+                <Card style={backgroundStyleAdmin}>
                     <br/>
 
                     <Row style = {{marginLeft: "9.5%"}}>

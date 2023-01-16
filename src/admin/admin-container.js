@@ -18,6 +18,8 @@ import { withRouter } from "react-router-dom";
 import * as API_CLIENT from "../client/api/client-api";
 import UserCookie from "../userCookie";
 import ClientChatBox from "../client/components/client-chatBox";
+import BackgroundImgAdmin from "../commons/images/adminBackground3.jpg"; //5.jpg"; 4.jpg"; //3.jpg"; //2.jpg"; //1.png";
+//Arata bine: "../commons/images/adminBackground4.jpg";
 
 
 const managementTitle = {
@@ -27,14 +29,24 @@ const managementTitle = {
     backgroundColor: '#549be2',
 };
 
-const divTotal = {
-    overflow: 'hidden',
-};
+// const divTotal = {
+//     overflow: 'hidden',
+// };
 
 const buttonStyle = {
     marginLeft: '17%',
     width: '10%',
     height: '100%'
+};
+
+const backgroundStyleAdmin = {
+    overflow: 'hidden',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    // width: "100%",
+    // height: "3840px",
+    backgroundImage: `url(${BackgroundImgAdmin})`
 };
 
 class AdminContainer extends React.Component
@@ -166,7 +178,8 @@ class AdminContainer extends React.Component
         //NU MERGE: onClick={this.redirectToHome}>Back</Button>
 
         return (
-            <div style={divTotal}>
+            <div style={backgroundStyleAdmin}>
+            {/*<div>*/}
                 <CardHeader style={managementTitle}>
                     <strong> Hello {this.state.userName}! Good luck at managing! </strong>
                 </CardHeader>

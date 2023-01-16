@@ -11,6 +11,30 @@ import DeviceContainer from './device/device-container'
 import AdminContainer from './admin/admin-container'
 import ErrorPage from './commons/errorhandling/error-page';
 import styles from './commons/styles/project-style.css';
+// import BackgroundImgAdmin from "./commons/images/adminBackground2.jpg";
+// import BackgroundImgClient from "./commons/images/clientBackground2.png";
+
+
+// const backgroundStyleAdmin = {
+//     overflow: 'hidden',
+//     backgroundPosition: 'center',
+//     backgroundSize: 'cover',
+//     // backgroundRepeat: 'no-repeat',
+//     width: "100%",
+//     // height: "3840px",
+//     backgroundImage: `url(${BackgroundImgAdmin})`
+// };
+
+
+// const backgroundStyleClient = {
+//     overflow: 'hidden',
+//     backgroundPosition: 'center',
+//     // backgroundSize: 'cover',
+//     backgroundRepeat: 'no-repeat',
+//     width: "100%",
+//     // height: "3840px",
+//     backgroundImage: `url(${BackgroundImgClient})`
+// };
 
 
 //Clasa componenta: Cu render:
@@ -36,6 +60,7 @@ class App extends React.Component {
                             exact
                             path='/admin'
                             render={() =>
+                                // <div style = {backgroundStyleAdmin}>
                                 <div>
                                     <NavigationBar/>
                                     <AdminContainer/>
@@ -44,12 +69,14 @@ class App extends React.Component {
                         <Route
                             exact
                             path='/client'
-                            render={() => <ClientContainer/>}
+                            // style = {backgroundStyleClient}
+                            render={() => <ClientContainer />}
                         />
                         <Route
                             exact
                             path='/admin/user'
                             render={() =>
+                                // <div style = {backgroundStyleAdmin}>
                                 <div>
                                     <NavigationBar/>
                                     <UserContainer/>
@@ -59,6 +86,7 @@ class App extends React.Component {
                             exact
                             path='/admin/device'
                             render={() =>
+                                // <div style = {backgroundStyleAdmin}>
                                 <div>
                                     <NavigationBar/>
                                     <DeviceContainer/>

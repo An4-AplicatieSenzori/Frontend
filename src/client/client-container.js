@@ -22,6 +22,8 @@ import { withRouter } from "react-router-dom";
 import UserFormInsert from "../user/components/user-form-insert";
 import ClientFormDescription from "./components/client-description";
 import UserCookie from "../userCookie";
+import BackgroundImgClient from "../commons/images/clientBackground3.png"; //4.png"; //3.png"; //2.png"; //1.jpg";
+//Arata bine: "../commons/images/clientBackground3.png";
 
 
 
@@ -32,15 +34,25 @@ const managementTitle = {
     backgroundColor: '#549be2',
 };
 
-const divTotal = {
-    overflow: 'hidden',
-};
-
 const buttonStyle = {
     marginLeft: '17%',
     width: '10%',
     height: '100%'
 };
+
+const backgroundStyleClient = {
+    backgroundImage: `url(${BackgroundImgClient})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    overflow: 'hidden',
+    width: "100%",
+    // height: "200%", //"3840px",
+};
+
+// const divTotal = {
+//     overflow: 'hidden',
+// };
 
 //Merge in functii asa:
 /*let params = {
@@ -302,15 +314,15 @@ class ClientContainer extends React.Component
 
     render() {
         return (
-            <div style={divTotal}>
-
+            // <div style={backgroundStyleClient}>
+            <div>
                 <UserCookie ref={this.cookieRef} />
 
                 <CardHeader style={managementTitle}>
                     <strong> Hello {this.userName}! These are your devices: </strong>
                 </CardHeader>
 
-                <Card>
+                <Card style={backgroundStyleClient}>
 
                     <br/>
 

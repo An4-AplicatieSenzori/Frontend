@@ -25,6 +25,40 @@ function messageFromAdminToClient(message, callback)
 
 
 
+function typingFromAdminToClient(typing, callback)
+{
+    let request = new Request(HOST.backend_api + endpoint.adminUser + "/typingFromAdminToClient", {
+        method: 'POST',
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(typing)
+    });
+
+    console.log("URL: " + request.url);
+    RestApiClient.performRequest(request, callback);
+}
+
+
+
+function readFromAdminToClient(read, callback)
+{
+    let request = new Request(HOST.backend_api + endpoint.adminUser + "/readFromAdminToClient", {
+        method: 'POST',
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(read)
+    });
+
+    console.log("URL: " + request.url);
+    RestApiClient.performRequest(request, callback);
+}
+
+
+
 //Test git;
 //Avem asa:
 //1) GET: Role pentru a stii unde trebuie redirect, ce pagina;
@@ -53,6 +87,8 @@ export {
     //getUserName,
     //getUserRole,
     messageFromAdminToClient,
+    typingFromAdminToClient,
+    readFromAdminToClient,
 };
 
 

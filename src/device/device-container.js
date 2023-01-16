@@ -18,6 +18,7 @@ import DeviceTable from "./components/device-table";
 import { withRouter } from "react-router-dom";
 import * as API_CLIENT from "../client/api/client-api";
 import UserCookie from "../userCookie";
+import BackgroundImgAdmin from "../commons/images/adminBackground4.jpg"; //4.jpg"; //3.jpg"; //2.jpg"; //1.png";
 
 
 const managementTitle = {
@@ -27,9 +28,19 @@ const managementTitle = {
     backgroundColor: '#549be2',
 };
 
-const divTotal = {
+const backgroundStyleAdmin = {
     overflow: 'hidden',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    width: "100%",
+    // height: "3840px",
+    backgroundImage: `url(${BackgroundImgAdmin})`
 };
+
+// const divTotal = {
+//     overflow: 'hidden',
+// };
 
 class DeviceContainer extends React.Component
 {
@@ -158,12 +169,13 @@ class DeviceContainer extends React.Component
 
     render() {
         return (
-            <div style={divTotal}>
+            // <div style={backgroundStyleAdmin}>
+            <div>
                 <CardHeader style={managementTitle}>
                     <strong> Device Management </strong>
                 </CardHeader>
 
-                <Card>
+                <Card style={backgroundStyleAdmin}>
                     <br/>
                     <Row style = {{marginLeft: "9.5%"}}>
                         <Col sm={{size: '0', offset: '1'}}>
