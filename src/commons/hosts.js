@@ -5,5 +5,5 @@ export const HOST = {
     backend_api: 'http://localhost:8080', //API principal, de backend;
 
     //CELE DE AZURE!!!
-    //backend_api: 'http://20.52.193.76:8080', //Done :)
+    //backend_api: 'http://20.113.23.238:8080', //Done :)
 };

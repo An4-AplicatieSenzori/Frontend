@@ -5,7 +5,7 @@ version: '3'
 services:
 
   react:
-    image: orsantudorfrontend.azurecr.io/orsantudorfrontend:121 # Am pus fara image a 2-a oara ca nu era clar!!!
+    image: orsantudorfrontend.azurecr.io/orsantudorfrontend:124 # Am pus fara image a 2-a oara ca nu era clar!!!
     ports:
        #- "8080:8080"
        - "80:80"
